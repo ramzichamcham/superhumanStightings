@@ -3,37 +3,36 @@ package com.sg.superhumanSightings.entity;
 import java.util.Objects;
 
 public class Member {
-    private int superhumanId;
-    private int organizationId;
+    private Superhuman superhuman;
+    private Organization organization;
 
-    public int getSuperhumanId() {
-        return superhumanId;
+    public Superhuman getSuperhuman() {
+        return superhuman;
     }
 
-    public void setSuperhumanId(int superhumanId) {
-        this.superhumanId = superhumanId;
+    public void setSuperhuman(Superhuman superhuman) {
+        this.superhuman = superhuman;
     }
 
-    public int getOrganizationId() {
-        return organizationId;
+    public Organization getOrganization() {
+        return organization;
     }
 
-    public void setOrganizationId(int organizationId) {
-        this.organizationId = organizationId;
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return superhumanId == member.superhumanId &&
-                organizationId == member.organizationId;
+        return superhuman.equals(member.superhuman) &&
+                organization.equals(member.organization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(superhumanId, organizationId);
+        return Objects.hash(superhuman, organization);
     }
 }
