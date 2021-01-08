@@ -1,5 +1,6 @@
 package com.sg.superhumanSightings.entity;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Superhuman {
@@ -7,6 +8,9 @@ public class Superhuman {
     private int id;
     private String name;
     private String description;
+    private List<Location> locations;
+    private List<Organization> organizations;
+    private List<Superpower> superpowers;
 
     public int getId() {
         return id;
@@ -32,7 +36,32 @@ public class Superhuman {
         this.description = description;
     }
 
-    //description can be null
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
+
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
+    }
+
+    public List<Superpower> getSuperpowers() {
+        return superpowers;
+    }
+
+    public void setSuperpowers(List<Superpower> superpowers) {
+        this.superpowers = superpowers;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,11 +69,14 @@ public class Superhuman {
         Superhuman that = (Superhuman) o;
         return id == that.id &&
                 name.equals(that.name) &&
-                Objects.equals(description, that.description);
+                Objects.equals(description, that.description) &&
+                locations.equals(that.locations) &&
+                organizations.equals(that.organizations) &&
+                superpowers.equals(that.superpowers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id, name, description, locations, organizations, superpowers);
     }
 }
