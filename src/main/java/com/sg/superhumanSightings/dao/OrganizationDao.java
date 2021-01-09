@@ -11,7 +11,7 @@ public interface OrganizationDao {
     List<Organization> getAllOrganizations();
     Organization addOrganization(Organization org);
     void updateOrganization(Organization org);
-    void deleteOrganization(Organization org);
+    void deleteOrganizationById(int id);
 
     List<Organization> getOrganizationsForSuperhuman(Superhuman sh);
 
