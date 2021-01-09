@@ -14,6 +14,7 @@ public interface SuperpowerDao {
     void updateSuperpower(Superpower sp);
     void deleteSuperpowerById(int id);
 
+    List<Superpower> getSuperpowersForSuperhuman(Superhuman sh);
 
 
 

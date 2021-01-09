@@ -1,5 +1,6 @@
 package com.sg.superhumanSightings.dao;
 
+import com.sg.superhumanSightings.entity.Superhuman;
 import com.sg.superhumanSightings.entity.Superpower;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -65,6 +66,17 @@ public class SuperpowerDaoDB implements SuperpowerDao {
         jdbc.update(DELETE_SUPERPOWER, id);
     }
 
+    @Override
+    @Transactional
+    public List<Superpower> getSuperpowersForSuperhuman(Superhuman sh) {
+        final String SELECT_ORGANIZATIONS_BY_SH =
+                "SELECT superpower.* " +
+                        "FROM superpower " +
+                        "JOIN superhuman_superpower " +
+                        "ON superhuman_superpower.superpower_id = superpower.id" +
+                        "WHERE superhuman_superpower.superhuman_id = ?";
+        return jdbc.query(SELECT_ORGANIZATIONS_BY_SH, new SuperpowerMapper(), sh.getId());
+    }
 
     public static final class SuperpowerMapper implements RowMapper<Superpower> {
 
