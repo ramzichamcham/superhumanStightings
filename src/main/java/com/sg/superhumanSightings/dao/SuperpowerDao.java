@@ -12,7 +12,7 @@ public interface SuperpowerDao {
     List<Superpower> getAllSuperpowers();
     Superpower addSuperpower(Superpower sp);
     void updateSuperpower(Superpower sp);
-    void deleteSuperpower(Superpower sp);
+    void deleteSuperpowerById(int id);
 
 
 
