@@ -8,7 +8,6 @@ public class Superhuman {
     private int id;
     private String name;
     private String description;
-    private List<Location> locations;
     private List<Organization> organizations;
     private List<Superpower> superpowers;
 
@@ -37,14 +36,6 @@ public class Superhuman {
     }
 
 
-    public List<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
-
     public List<Organization> getOrganizations() {
         return organizations;
     }
@@ -70,13 +61,12 @@ public class Superhuman {
         return id == that.id &&
                 name.equals(that.name) &&
                 Objects.equals(description, that.description) &&
-                locations.equals(that.locations) &&
                 organizations.equals(that.organizations) &&
                 superpowers.equals(that.superpowers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, locations, organizations, superpowers);
+        return Objects.hash(id, name, description, organizations, superpowers);
     }
 }
