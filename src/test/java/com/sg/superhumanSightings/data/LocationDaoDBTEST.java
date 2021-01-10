@@ -3,9 +3,11 @@ package com.sg.superhumanSightings.data;
 import com.sg.superhumanSightings.dao.*;
 import com.sg.superhumanSightings.entity.*;
 import net.bytebuddy.implementation.bind.annotation.Super;
+import static org.junit.Assert.*;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,6 +65,22 @@ public class LocationDaoDBTEST {
         for(Superpower sp: superpowers){
             superpowerDao.deleteSuperpowerById(sp.getId());
         }
+    }
+
+    @Test
+    public void testAddandGetLocation(){
+        Location loc = new Location();
+        loc.setName("Times Square");
+        loc.setAddress("Manhattan, NY 10036, United States");
+        loc.setLongitude(-73.985130);
+        loc.setLatitude(40.758896);
+        loc.setDescription("Famous central square in the Theater District of Manhattan");
+
+        locationDao.addLocation(loc);
+        Location fromDao = locationDao.getLocationById(loc.getId());
+
+        assertEquals(loc, fromDao);
+
     }
 
 
