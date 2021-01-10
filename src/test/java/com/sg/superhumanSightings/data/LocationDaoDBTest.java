@@ -53,7 +53,7 @@ public class LocationDaoDBTest {
 
         List<Organization> organizations = organizationDao.getAllOrganizations();
         for(Organization org: organizations){
-            superhumanDao.deleteSuperhumanById(org.getId());
+            organizationDao.deleteOrganizationById(org.getId());
         }
 
         List<Superhuman> superhumans = superhumanDao.getAllSuperhumans();
