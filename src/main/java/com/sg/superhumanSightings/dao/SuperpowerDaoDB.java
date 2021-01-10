@@ -31,7 +31,7 @@ public class SuperpowerDaoDB implements SuperpowerDao {
 
     @Override
     public List<Superpower> getAllSuperpowers() {
-        final String SELECT_ALL_STUDENTS = "SELECT * FROM student";
+        final String SELECT_ALL_STUDENTS = "SELECT * FROM superpower";
         return jdbc.query(SELECT_ALL_STUDENTS, new SuperpowerMapper());
     }
 
