@@ -57,7 +57,7 @@ public class OrganizationDaoDBTest {
 
         List<Organization> organizations = organizationDao.getAllOrganizations();
         for(Organization org: organizations){
-            superhumanDao.deleteSuperhumanById(org.getId());
+            organizationDao.deleteOrganizationById(org.getId());
         }
 
         List<Superhuman> superhumans = superhumanDao.getAllSuperhumans();
@@ -87,4 +87,33 @@ public class OrganizationDaoDBTest {
         assertEquals(org, fromDao);
 
     }
+
+    @Test
+    public void testGetAllOrganizations() {
+
+        Organization org = new Organization();
+        org.setName("Xavier Institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Train young mutants in controlling their powers");
+        org.setEmail("xavierInstitute@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+
+        organizationDao.addOrganization(org);
+
+        Organization org2 = new Organization();
+        org2.setName("Super people institute");
+        org2.setAddress("Cambridge, MA, United States");
+        org2.setDescription("Learn to fly");
+        org2.setEmail("superpeople@gmail.com");
+        org2.setPhoneNumber("415-290-7907");
+
+        organizationDao.addOrganization(org2);
+
+        List<Organization> organizations = organizationDao.getAllOrganizations();
+
+        assertEquals(2, organizations.size());
+        assertTrue(organizations.contains(org));
+        assertTrue(organizations.contains(org2));
+    }
+
 }
