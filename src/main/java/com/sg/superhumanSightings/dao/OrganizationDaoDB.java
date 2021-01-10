@@ -55,7 +55,7 @@ public class OrganizationDaoDB implements OrganizationDao{
     @Override
     public void updateOrganization(Organization org) {
         final String UPDATE_ORGANIZATION =
-                "UPDATE organization SET name = ?, description = ?, address = ?, phone_number = ?, email = ?"
+                "UPDATE organization SET name = ?, description = ?, address = ?, phone_number = ?, email = ? "
                 + "WHERE id = ?";
         jdbc.update(UPDATE_ORGANIZATION,
                 org.getName(),
@@ -82,7 +82,7 @@ public class OrganizationDaoDB implements OrganizationDao{
                 "SELECT organization.* " +
                         "FROM organization " +
                         "JOIN member " +
-                        "ON member.organization_id = organization.id" +
+                        "ON member.organization_id = organization.id " +
                         "WHERE member.superhuman_id = ?";
         return jdbc.query(SELECT_ORGANIZATIONS_BY_SH, new OrganizationMapper(), sh.getId());
     }

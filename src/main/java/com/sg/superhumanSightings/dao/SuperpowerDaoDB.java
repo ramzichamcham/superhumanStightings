@@ -35,7 +35,7 @@ public class SuperpowerDaoDB implements SuperpowerDao {
 
     @Override
     public Superpower addSuperpower(Superpower sp) {
-        final String INSERT_POWER = "INSERT INTO power(name, description) "
+        final String INSERT_POWER = "INSERT INTO superpower(name, description) "
                 + "VALUES(?,?)";
         jdbc.update(INSERT_POWER,
                 sp.getName(),

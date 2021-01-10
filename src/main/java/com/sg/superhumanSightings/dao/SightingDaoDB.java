@@ -19,8 +19,8 @@ public class SightingDaoDB implements SightingDao{
 
     @Override
     public Sighting addSighting(Sighting sighting) {
-        final String INSERT_SIGHTING = "INSERT INTO sighting(superhuman_id, location_id, date)" +
-                " VALUES(?, ?, ?)";
+        final String INSERT_SIGHTING = "INSERT INTO sighting(superhuman_id, location_id, date) " +
+                "VALUES(?, ?, ?)";
         jdbc.update(INSERT_SIGHTING, sighting.getSuperhuman().getId(), sighting.getLocation().getId(), sighting.getDate());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -54,7 +54,7 @@ public class SightingDaoDB implements SightingDao{
         final String SELECT_SUPERHUMAN_FOR_SIGHTING=
                 "SELECT superhuman.* " +
                         "FROM superhuman " +
-                        "JOIN sighting" +
+                        "JOIN sighting " +
                         "ON sighting.superhuman_id = superhuman.id " +
                         "WHERE sighting.id = ?";
 
@@ -66,20 +66,20 @@ public class SightingDaoDB implements SightingDao{
 
     private List<Superpower> getSuperpowersForSuperhuman(int id) {
         final String SELECT_SUPERPOWERS_FOR_SUPERHUMAN =
-                "SELECT superpower.*" +
-                        "FROM superpower" +
-                        "JOIN superhuman_superpower" +
-                        "ON superpower.id = superhuman_superpower.superpower_id" +
-                        "WHERE superhuman_superpower.superhuman_id = ?";
+                "SELECT superpower.* " +
+                        "FROM superpower " +
+                        "JOIN superhuman_superpower " +
+                        "ON superpower.id = superhuman_superpower.superpower_id " +
+                        "WHERE superhuman_superpower.superhuman_id = ? ";
         return jdbc.query(SELECT_SUPERPOWERS_FOR_SUPERHUMAN, new SuperpowerDaoDB.SuperpowerMapper(), id);
     }
 
     private List<Organization> getOrganizationsForSuperhuman(int id) {
         final String SELECT_ORGANIZATIONS_FOR_SUPERHUMAN =
                 "SELECT organization.* " +
-                        "FROM organization" +
-                        "JOIN member ON member.organization_id = organization.id" +
-                        "WHERE member.superhuman_id = ?";
+                        "FROM organization " +
+                        "JOIN member ON member.organization_id = organization.id " +
+                        "WHERE member.superhuman_id = ? ";
         return jdbc.query(SELECT_ORGANIZATIONS_FOR_SUPERHUMAN, new OrganizationDaoDB.OrganizationMapper(), id);
     }
 
@@ -87,7 +87,7 @@ public class SightingDaoDB implements SightingDao{
         final String SELECT_LOCATION_FOR_SIGHTING=
                 "SELECT location.* " +
                         "FROM location " +
-                        "JOIN sighting" +
+                        "JOIN sighting " +
                         "ON sighting.location_id = location.id " +
                         "WHERE sighting.id = ?";
 
@@ -121,7 +121,7 @@ public class SightingDaoDB implements SightingDao{
                 "SELECT location.* " +
                         "FROM location " +
                         "JOIN sighting " +
-                        "ON sighting.location_id = location.id" +
+                        "ON sighting.location_id = location.id " +
                         "WHERE sighting.superhuman_id = ?";
         return jdbc.query(SELECT_LOCATIONS_BY_SH, new LocationDaoDB.LocationMapper(), sh.getId());
     }
