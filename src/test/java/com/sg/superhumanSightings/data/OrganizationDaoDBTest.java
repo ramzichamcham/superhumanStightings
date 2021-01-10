@@ -8,7 +8,11 @@ import com.sg.superhumanSightings.entity.Superpower;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
+
+import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -67,5 +71,20 @@ public class OrganizationDaoDBTest {
         }
     }
 
+    @Test
+    public void testAddandGetOrganization(){
+        Organization org = new Organization();
+        org.setName("Xavier Institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Train young mutants in controlling their powers");
+        org.setEmail("xavierInstitute@gmail.com");
+        org.setPhoneNumber("415-290-7907");
 
+        organizationDao.addOrganization(org);
+
+        Organization fromDao = organizationDao.getOrganizationById(org.getId());
+
+        assertEquals(org, fromDao);
+
+    }
 }
