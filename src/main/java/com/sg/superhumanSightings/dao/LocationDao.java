@@ -13,5 +13,4 @@ public interface LocationDao {
     void updateLocation(Location org);
     void deleteLocationById(int id);
 
-    List<Location> getLocationsForSuperhuman(Superhuman sh);
 }

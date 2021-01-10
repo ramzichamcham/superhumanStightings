@@ -73,16 +73,7 @@ public class LocationDaoDB implements LocationDao{
         jdbc.update(DELETE_LOCATION, id);
     }
 
-    @Override
-    public List<Location> getLocationsForSuperhuman(Superhuman sh) {
-        final String SELECT_LOCATIONS_BY_SH =
-                "SELECT location.* " +
-                        "FROM location " +
-                        "JOIN sighting " +
-                        "ON sighting.location_id = location.id" +
-                        "WHERE member.superhuman_id = ?";
-        return jdbc.query(SELECT_LOCATIONS_BY_SH, new LocationMapper(), sh.getId());
-    }
+
 
     public static final class LocationMapper implements RowMapper<Location> {
 
