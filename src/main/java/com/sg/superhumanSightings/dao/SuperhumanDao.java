@@ -15,7 +15,7 @@ public interface SuperhumanDao {
     void deleteSuperhumanById(int id);
 
     List<Superhuman> getSuperhumansForOrganization(Organization org);
-    List<Superhuman> getSuperhumansForLocation(Location loc);
+
 
 
 }
