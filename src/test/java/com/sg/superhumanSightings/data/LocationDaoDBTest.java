@@ -110,5 +110,28 @@ public class LocationDaoDBTest {
         assertTrue(locations.contains(loc2));
     }
 
+    @Test
+    public void testUpdateLocation(){
+        Location loc = new Location();
+        loc.setName("Times Square");
+        loc.setAddress("Manhattan, NY 10036, United States");
+        loc.setLongitude(-73.985130);
+        loc.setLatitude(40.758896);
+        loc.setDescription("Famous central square in the Theater District of Manhattan");
+        loc = locationDao.addLocation(loc);
+
+        Location fromDao = locationDao.getLocationById(loc.getId());
+        assertEquals(loc, fromDao);
+
+        loc.setName("The Bridge");
+        locationDao.updateLocation(loc);
+
+        assertNotEquals(loc, fromDao);
+
+        fromDao = locationDao.getLocationById(loc.getId());
+
+        assertEquals(loc, fromDao);
+    }
+
 
 }
