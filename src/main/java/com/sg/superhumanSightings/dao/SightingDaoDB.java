@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,12 +22,10 @@ public class SightingDaoDB implements SightingDao{
 
     @Override
     public Sighting addSighting(Sighting sighting) {
-        final String INSERT_SIGHTING = "INSERT INTO sighting(superhuman_id, location_id, date) " +
+        final String INSERT_SIGHTING = "INSERT INTO sighting(superhuman_id, location_id, date_time) " +
                 "VALUES(?, ?, ?)";
-        jdbc.update(INSERT_SIGHTING, sighting.getSuperhuman().getId(), sighting.getLocation().getId(), sighting.getDate());
+        jdbc.update(INSERT_SIGHTING, sighting.getSuperhuman().getId(), sighting.getLocation().getId(), Timestamp.valueOf(sighting.getTime()));
 
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-        sighting.setId(newId);
         return sighting;
     }
 
@@ -35,7 +34,7 @@ public class SightingDaoDB implements SightingDao{
     @Override
     public List<Sighting> getSightingsForDate(Date date) {
         final String SELECT_SIGHTINGS_BY_DATE =
-                "SELECT * FROM sighting WHERE date = ?";
+                "SELECT * FROM sighting WHERE DATE(date_time) = ?";
         List<Sighting> sightings = jdbc.query(SELECT_SIGHTINGS_BY_DATE, new SightingMapper(), date);
         associateSuperhumanAndLocation(sightings);
 
@@ -47,20 +46,20 @@ public class SightingDaoDB implements SightingDao{
 
     private void associateSuperhumanAndLocation(List<Sighting> sightings){
         for (Sighting sighting: sightings){
-            sighting.setSuperhuman(getSuperhumanForSighting(sighting.getId()));
-            sighting.setLocation(getLocationForSighting(sighting.getId()));
+            sighting.setSuperhuman(getSuperhumanForSighting(sighting.getTime()));
+            sighting.setLocation(getLocationForSighting(sighting.getTime()));
         }
     }
 
-    private Superhuman getSuperhumanForSighting(int id){
+    private Superhuman getSuperhumanForSighting(LocalDateTime time){
         final String SELECT_SUPERHUMAN_FOR_SIGHTING=
                 "SELECT superhuman.* " +
                         "FROM superhuman " +
                         "JOIN sighting " +
                         "ON sighting.superhuman_id = superhuman.id " +
-                        "WHERE sighting.id = ?";
+                        "WHERE sighting.date_time = ?";
 
-        Superhuman sh = jdbc.queryForObject(SELECT_SUPERHUMAN_FOR_SIGHTING, new SuperhumanDaoDB.SuperhumanMapper(), id);
+        Superhuman sh = jdbc.queryForObject(SELECT_SUPERHUMAN_FOR_SIGHTING, new SuperhumanDaoDB.SuperhumanMapper(), Timestamp.valueOf(time));
         sh.setOrganizations(getOrganizationsForSuperhuman(sh.getId()));
         sh.setSuperpowers(getSuperpowersForSuperhuman(sh.getId()));
         return sh;
@@ -85,15 +84,15 @@ public class SightingDaoDB implements SightingDao{
         return jdbc.query(SELECT_ORGANIZATIONS_FOR_SUPERHUMAN, new OrganizationDaoDB.OrganizationMapper(), id);
     }
 
-    private Location getLocationForSighting(int id){
+    private Location getLocationForSighting(LocalDateTime time){
         final String SELECT_LOCATION_FOR_SIGHTING=
                 "SELECT location.* " +
                         "FROM location " +
                         "JOIN sighting " +
                         "ON sighting.location_id = location.id " +
-                        "WHERE sighting.id = ?";
+                        "WHERE sighting.date_time = ?";
 
-        return jdbc.queryForObject(SELECT_LOCATION_FOR_SIGHTING, new LocationDaoDB.LocationMapper(), id);
+        return jdbc.queryForObject(SELECT_LOCATION_FOR_SIGHTING, new LocationDaoDB.LocationMapper(), Timestamp.valueOf(time));
 
     }
 
@@ -133,8 +132,7 @@ public class SightingDaoDB implements SightingDao{
         @Override
         public Sighting mapRow(ResultSet rs, int i) throws SQLException {
             Sighting sighting = new Sighting();
-            sighting.setId(rs.getInt("id"));
-            sighting.setDate(rs.getDate("date"));
+            sighting.setTime(rs.getTimestamp("date_time").toLocalDateTime());
 
             return sighting;
         }

@@ -2,24 +2,17 @@ package com.sg.superhumanSightings.entity;
 
 import org.apache.tomcat.jni.Local;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Sighting {
-    private int id;
+
     private Superhuman superhuman;
     private Location location;
-    private Date date;
+    private LocalDateTime time;
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Superhuman getSuperhuman() {
         return superhuman;
@@ -37,12 +30,12 @@ public class Sighting {
         this.location = location;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 
     @Override
@@ -50,14 +43,13 @@ public class Sighting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sighting sighting = (Sighting) o;
-        return id == sighting.id &&
-                superhuman.equals(sighting.superhuman) &&
+        return superhuman.equals(sighting.superhuman) &&
                 location.equals(sighting.location) &&
-                date.equals(sighting.date);
+                time.equals(sighting.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, superhuman, location, date);
+        return Objects.hash(superhuman, location, time);
     }
 }
