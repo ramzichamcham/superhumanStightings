@@ -207,7 +207,61 @@ public class SuperpowerDaoDBTest {
         assertFalse(shPowers.contains(sp));
         assertTrue(shPowers.contains(sp2));
 
-
-
     }
+
+
+    @Test
+    public void testGetSuperpowersForSuperhuman(){
+        //add superhuman with 2 superpowers
+
+        //create and add 2 new superpowers
+        Superpower sp= new Superpower();
+        sp.setName("Super strength");
+        sp.setDescription("The strength of 50 men");
+
+        superpowerDao.addSuperpower(sp);
+
+        Superpower sp2= new Superpower();
+        sp2.setName("Super speed");
+        sp2.setDescription("User's time is 20 times lower");
+
+        superpowerDao.addSuperpower(sp2);
+
+        //create new superhuman
+        Superhuman sh = new Superhuman();
+        sh.setName("Superman");
+        sh.setDescription("A man that is super");
+
+        //add superpowers to sh
+        List<Superpower> superpowers = new ArrayList<>();
+        superpowers.add(sp);
+        superpowers.add(sp2);
+        sh.setSuperpowers(superpowers);
+
+        //add organizations to sh
+        List<Organization> organizations = new ArrayList<>();
+        Organization org = new Organization();
+        org.setName("Super people institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Learn to fly");
+        org.setEmail("superpeople@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+        organizationDao.addOrganization(org);
+        organizations.add(org);
+        sh.setOrganizations(organizations);
+
+        superhumanDao.addSuperhuman(sh);
+
+
+
+        //getSuperpowersForSuperhuman
+        List<Superpower> spsForShFromDao = superpowerDao.getSuperpowersForSuperhuman(sh);
+
+        //assert
+        assertEquals(2, spsForShFromDao.size());
+        assertTrue(spsForShFromDao.contains(sp));
+        assertTrue(spsForShFromDao.contains(sp2));
+    }
+
+
 }
