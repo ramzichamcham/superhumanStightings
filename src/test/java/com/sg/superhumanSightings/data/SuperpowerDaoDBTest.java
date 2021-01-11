@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -86,5 +88,51 @@ public class SuperpowerDaoDBTest {
 
     }
 
+    @Test
+    public void testGetAllSuperpowers() {
+        //create and add 2 new superpowers
+        Superpower sp= new Superpower();
+        sp.setName("Super strength");
+        sp.setDescription("The strength of 50 men");
+
+        superpowerDao.addSuperpower(sp);
+
+        Superpower sp2= new Superpower();
+        sp2.setName("Super speed");
+        sp2.setDescription("User's time is 20 times lower");
+
+        superpowerDao.addSuperpower(sp2);
+
+        List<Superpower> superpowers = superpowerDao.getAllSuperpowers();
+
+        assertEquals(2, superpowers.size());
+        assertTrue(superpowers.contains(sp));
+        assertTrue(superpowers.contains(sp2));
+    }
+
+
+    @Test
+    public void testUpdateSuperpower(){
+        //create and add superpower
+        Superpower sp= new Superpower();
+        sp.setName("Super strength");
+        sp.setDescription("The strength of 50 men");
+
+        superpowerDao.addSuperpower(sp);
+
+        //get From dao and compare
+        Superpower fromDao = superpowerDao.getSuperpowerById(sp.getId());
+        assertEquals(sp, fromDao);
+
+        //update name
+        sp.setName("Mega Strength");
+        assertNotEquals(sp, fromDao);
+
+        //update in db and retrieve to compare
+        superpowerDao.updateSuperpower(sp);
+        fromDao = superpowerDao.getSuperpowerById(sp.getId());
+
+        assertEquals(sp, fromDao);
+    }
 
 }
