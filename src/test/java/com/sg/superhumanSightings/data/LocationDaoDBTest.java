@@ -1,9 +1,12 @@
 package com.sg.superhumanSightings.data;
 
+import com.sg.superhumanSightings.ServiceLayer.SuperhumanSightingsServiceLayer;
 import com.sg.superhumanSightings.dao.*;
 import com.sg.superhumanSightings.entity.*;
 import net.bytebuddy.implementation.bind.annotation.Super;
 import static org.junit.Assert.*;
+
+import org.apache.tomcat.jni.Local;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -15,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +41,9 @@ public class LocationDaoDBTest {
 
     @Autowired
     SuperpowerDao superpowerDao;
+
+    @Autowired
+    SuperhumanSightingsServiceLayer service;
 
     @BeforeClass
     public static void setUpClass() {
@@ -188,11 +196,11 @@ public class LocationDaoDBTest {
         Sighting sighting = new Sighting();
         sighting.setLocation(loc);
         sighting.setSuperhuman(sh);
-        Date date= Date.valueOf("2021-01-01");
-        sighting.setDate(date);
+        LocalDateTime now = LocalDateTime.now();
+        sighting.setTime(now);
         sightingDao.addSighting(sighting);
 
-        assertEquals(1, sightingDao.getSightingsForDate(sighting.getDate()).size());
+        assertEquals(1, sightingDao.getSightingsForDate(service.localDateTimetoSQLDate(sighting.getTime())).size());
         assertEquals(2, locationDao.getAllLocations().size());
         assertTrue(locationDao.getAllLocations().contains(loc));
         assertTrue(locationDao.getAllLocations().contains(loc2));
@@ -201,7 +209,7 @@ public class LocationDaoDBTest {
         locationDao.deleteLocationById(loc.getId());
 
         //assert location and respective sighting have been deleted from db
-        assertEquals(0, sightingDao.getSightingsForDate(sighting.getDate()).size());
+        assertEquals(0, sightingDao.getSightingsForDate(service.localDateTimetoSQLDate(sighting.getTime())).size());
         assertEquals(1, locationDao.getAllLocations().size());
         assertFalse(locationDao.getAllLocations().contains(loc));
         assertTrue(locationDao.getAllLocations().contains(loc2));
