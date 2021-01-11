@@ -110,7 +110,7 @@ public class SuperhumanDaoDBTest {
     @Test
     public void testGetAllSuperhumans() {
 
-//create new superhuman
+        //create new superhuman
         Superhuman sh = new Superhuman();
         sh.setName("Superman");
         sh.setDescription("A man that is super");
@@ -171,6 +171,53 @@ public class SuperhumanDaoDBTest {
         assertEquals(2, superhumans.size());
         assertTrue(superhumans.contains(sh));
         assertTrue(superhumans.contains(sh2));
+    }
+
+    @Test
+    public void testUpdateSuperhuman(){
+
+        //create new superhuman
+        Superhuman sh = new Superhuman();
+        sh.setName("Superman");
+        sh.setDescription("A man that is super");
+
+        //add superpowers to sh
+        List<Superpower> superpowers = new ArrayList<>();
+        Superpower power = new Superpower();
+        power.setName("fly");
+        power.setDescription("Ability to fly");
+        superpowerDao.addSuperpower(power);
+        superpowers.add(power);
+        sh.setSuperpowers(superpowers);
+
+        //add organizations to sh
+        List<Organization> organizations = new ArrayList<>();
+        Organization org = new Organization();
+        org.setName("Super people institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Learn to fly");
+        org.setEmail("superpeople@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+        organizationDao.addOrganization(org);
+        organizations.add(org);
+        sh.setOrganizations(organizations);
+
+        //add superhuman
+        superhumanDao.addSuperhuman(sh);
+
+        //get from dao and assert equals
+        Superhuman fromDao = superhumanDao.getSuperhumanById(sh.getId());
+        assertEquals(sh, fromDao);
+
+        //change name and assert not equals
+        sh.setName("Megaman");
+        assertNotEquals(sh, fromDao);
+
+        //update in dao and assert equals
+        superhumanDao.updateSuperhuman(sh);
+        fromDao = superhumanDao.getSuperhumanById(sh.getId());
+
+        assertEquals(sh, fromDao);
     }
 
 
