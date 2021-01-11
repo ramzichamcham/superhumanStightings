@@ -8,12 +8,15 @@ import com.sg.superhumanSightings.entity.Superpower;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -66,4 +69,22 @@ public class SuperpowerDaoDBTest {
             superpowerDao.deleteSuperpowerById(sp.getId());
         }
     }
+
+    @Test
+    public void testAddandGetSuperpower(){
+        //create new superpower
+        Superpower sp= new Superpower();
+        sp.setName("Super strength");
+        sp.setDescription("The strength of 50 men");
+
+        //add superpower to db and retrieve from dao
+        superpowerDao.addSuperpower(sp);
+        Superpower fromDao = superpowerDao.getSuperpowerById(sp.getId());
+
+        //assertEquals
+        assertEquals(sp, fromDao);
+
+    }
+
+
 }
