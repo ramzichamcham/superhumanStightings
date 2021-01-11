@@ -90,7 +90,7 @@ public class SuperhumanDaoDB implements SuperhumanDao{
                 sh.getDescription()
                 );
 
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID", Integer.class);
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         sh.setId(newId);
         insertSuperhumanOrg(sh);
         insertSuperhumanSuperpower(sh);
