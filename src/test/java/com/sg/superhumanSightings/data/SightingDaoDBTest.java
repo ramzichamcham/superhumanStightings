@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +121,7 @@ public class SightingDaoDBTest {
         Sighting sighting = new Sighting();
         sighting.setSuperhuman(sh);
         sighting.setLocation(loc);
-        sighting.setTime(dateTime);
+        sighting.setDateTime(dateTime);
 
         //add new sighting
         sightingDao.addSighting(sighting);

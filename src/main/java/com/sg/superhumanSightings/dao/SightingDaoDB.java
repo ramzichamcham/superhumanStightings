@@ -1,7 +1,6 @@
 package com.sg.superhumanSightings.dao;
 
 import com.sg.superhumanSightings.entity.*;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,7 +23,7 @@ public class SightingDaoDB implements SightingDao{
     public Sighting addSighting(Sighting sighting) {
         final String INSERT_SIGHTING = "INSERT INTO sighting(superhuman_id, location_id, date_time) " +
                 "VALUES(?, ?, ?)";
-        jdbc.update(INSERT_SIGHTING, sighting.getSuperhuman().getId(), sighting.getLocation().getId(), Timestamp.valueOf(sighting.getTime()));
+        jdbc.update(INSERT_SIGHTING, sighting.getSuperhuman().getId(), sighting.getLocation().getId(), Timestamp.valueOf(sighting.getDateTime()));
 
         return sighting;
     }
@@ -46,8 +45,8 @@ public class SightingDaoDB implements SightingDao{
 
     private void associateSuperhumanAndLocation(List<Sighting> sightings){
         for (Sighting sighting: sightings){
-            sighting.setSuperhuman(getSuperhumanForSighting(sighting.getTime()));
-            sighting.setLocation(getLocationForSighting(sighting.getTime()));
+            sighting.setSuperhuman(getSuperhumanForSighting(sighting.getDateTime()));
+            sighting.setLocation(getLocationForSighting(sighting.getDateTime()));
         }
     }
 
@@ -132,7 +131,7 @@ public class SightingDaoDB implements SightingDao{
         @Override
         public Sighting mapRow(ResultSet rs, int i) throws SQLException {
             Sighting sighting = new Sighting();
-            sighting.setTime(rs.getTimestamp("date_time").toLocalDateTime());
+            sighting.setDateTime(rs.getTimestamp("date_time").toLocalDateTime());
 
             return sighting;
         }
