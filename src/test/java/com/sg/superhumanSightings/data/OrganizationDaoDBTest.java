@@ -211,4 +211,44 @@ public class OrganizationDaoDBTest {
         assertEquals(1, shFromDao.getOrganizations().size());
     }
 
+
+    @Test
+    public void testGetOrganizationsForSuperhuman(){
+        //create superhuman with organizations
+        //create new superhuman
+        Superhuman sh = new Superhuman();
+        sh.setName("Superman");
+        sh.setDescription("A man that is super");
+
+        //add superpowers to sh
+        List<Superpower> superpowers = new ArrayList<>();
+        Superpower power = new Superpower();
+        power.setName("fly");
+        power.setDescription("Ability to fly");
+        superpowerDao.addSuperpower(power);
+        superpowers.add(power);
+        sh.setSuperpowers(superpowers);
+
+        //add organizations to sh
+        List<Organization> organizations = new ArrayList<>();
+        Organization org = new Organization();
+        org.setName("Super people institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Learn to fly");
+        org.setEmail("superpeople@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+        organizationDao.addOrganization(org);
+        organizations.add(org);
+        sh.setOrganizations(organizations);
+
+        superhumanDao.addSuperhuman(sh);
+
+        //get organizations for superhuman and check they are equal
+        List<Organization> orgsForShFromdao = organizationDao.getOrganizationsForSuperhuman(sh);
+
+        assertEquals(organizations, orgsForShFromdao);
+
+
+    }
+
 }
