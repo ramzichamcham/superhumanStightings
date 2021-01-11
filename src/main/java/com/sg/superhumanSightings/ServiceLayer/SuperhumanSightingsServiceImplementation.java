@@ -13,4 +13,9 @@ public class SuperhumanSightingsServiceImplementation implements SuperhumanSight
         java.sql.Date sqlDate = java.sql.Date.valueOf(dateTime.toLocalDate());
         return sqlDate;
     }
+
+    @Override
+    public LocalDateTime localDateTimeNow() {
+        return LocalDateTime.now().withNano(0);
+    }
 }
