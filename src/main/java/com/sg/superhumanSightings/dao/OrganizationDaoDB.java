@@ -64,7 +64,8 @@ public class OrganizationDaoDB implements OrganizationDao{
                 org.getDescription(),
                 org.getAddress(),
                 org.getPhoneNumber(),
-                org.getEmail()
+                org.getEmail(),
+                org.getId()
         );
     }
 
