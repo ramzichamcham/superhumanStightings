@@ -54,7 +54,8 @@ public class SuperpowerDaoDB implements SuperpowerDao {
                 + "WHERE id = ?";
         jdbc.update(UPDATE_STUDENT,
                 sp.getName(),
-                sp.getDescription()
+                sp.getDescription(),
+                sp.getId()
         );
     }
 
