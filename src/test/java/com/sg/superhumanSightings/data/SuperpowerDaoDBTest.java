@@ -1,10 +1,8 @@
 package com.sg.superhumanSightings.data;
 
 import com.sg.superhumanSightings.dao.*;
-import com.sg.superhumanSightings.entity.Location;
-import com.sg.superhumanSightings.entity.Organization;
-import com.sg.superhumanSightings.entity.Superhuman;
-import com.sg.superhumanSightings.entity.Superpower;
+import com.sg.superhumanSightings.entity.*;
+import net.bytebuddy.implementation.bind.annotation.Super;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -15,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -135,4 +135,79 @@ public class SuperpowerDaoDBTest {
         assertEquals(sp, fromDao);
     }
 
+
+
+    @Test
+    public void testDeleteSuperpowerById() {
+        //create and add 2 new superpowers
+        Superpower sp= new Superpower();
+        sp.setName("Super strength");
+        sp.setDescription("The strength of 50 men");
+
+        superpowerDao.addSuperpower(sp);
+
+        Superpower sp2= new Superpower();
+        sp2.setName("Super speed");
+        sp2.setDescription("User's time is 20 times lower");
+
+        superpowerDao.addSuperpower(sp2);
+
+        //create new superhuman
+        Superhuman sh = new Superhuman();
+        sh.setName("Superman");
+        sh.setDescription("A man that is super");
+
+        //add superpowers to sh
+        List<Superpower> superpowers = new ArrayList<>();
+
+        superpowers.add(sp);
+        superpowers.add(sp2);
+        sh.setSuperpowers(superpowers);
+
+        //add organizations to sh
+        List<Organization> organizations = new ArrayList<>();
+        Organization org = new Organization();
+        org.setName("Super people institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Learn to fly");
+        org.setEmail("superpeople@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+        organizationDao.addOrganization(org);
+        organizations.add(org);
+        sh.setOrganizations(organizations);
+
+        superhumanDao.addSuperhuman(sh);
+
+        //superpowers
+        List<Superpower> powersFromDao = superpowerDao.getAllSuperpowers();
+        assertEquals(2, powersFromDao.size());
+        assertTrue(powersFromDao.contains(sp));
+        assertTrue(powersFromDao.contains(sp2));
+
+        //sh's superpowers
+        Superhuman shFromDao = superhumanDao.getSuperhumanById(sh.getId());
+        List<Superpower> shPowers = shFromDao.getSuperpowers();
+        assertEquals(2, shPowers.size());
+        assertTrue(shPowers.contains(sp));
+        assertTrue(shPowers.contains(sp2));
+
+        //delete superpower from db
+        superpowerDao.deleteSuperpowerById(sp.getId());
+
+        //superpowers
+        powersFromDao = superpowerDao.getAllSuperpowers();
+        assertEquals(1, powersFromDao.size());
+        assertFalse(powersFromDao.contains(sp));
+        assertTrue(powersFromDao.contains(sp2));
+
+        //sh's superpowers
+        shFromDao = superhumanDao.getSuperhumanById(sh.getId());
+        shPowers = shFromDao.getSuperpowers();
+        assertEquals(1, shPowers.size());
+        assertFalse(shPowers.contains(sp));
+        assertTrue(shPowers.contains(sp2));
+
+
+
+    }
 }
