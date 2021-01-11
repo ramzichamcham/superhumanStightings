@@ -116,4 +116,28 @@ public class OrganizationDaoDBTest {
         assertTrue(organizations.contains(org2));
     }
 
+    @Test
+    public void testUpdateOrganization(){
+        Organization org = new Organization();
+        org.setName("Xavier Institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Train young mutants in controlling their powers");
+        org.setEmail("xavierInstitute@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+
+        organizationDao.addOrganization(org);
+
+        Organization fromDao = organizationDao.getOrganizationById(org.getId());
+        assertEquals(org, fromDao);
+
+        org.setName("The Bridge");
+        organizationDao.updateOrganization(org);
+
+        assertNotEquals(org, fromDao);
+
+        fromDao = organizationDao.getOrganizationById(org.getId());
+
+        assertEquals(org, fromDao);
+    }
+
 }
