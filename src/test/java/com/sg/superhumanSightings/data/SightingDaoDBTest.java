@@ -204,15 +204,7 @@ public class SightingDaoDBTest {
         loc.setDescription("Famous central square in the Theater District of Manhattan");
 
         locationDao.addLocation(loc);
-
-//        Location loc2 = new Location();
-//        loc2.setName("The Bridge");
-//        loc2.setAddress("Manhattan, NY 00451, United States");
-//        loc2.setLongitude(-73.985130);
-//        loc2.setLatitude(40.758896);
-//        loc2.setDescription("A really big bridge");
-//
-//        locationDao.addLocation(loc2);
+        
 
         //add 2 superhuman sightings for same location
         LocalDateTime dateTime = service.localDateTimeNow();
