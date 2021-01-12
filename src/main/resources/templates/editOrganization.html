@@ -12,6 +12,7 @@
 </head>
 <body>
 <!-- Main Body of Page -->
+
 <div class="container">
     <div class="row m-4">
         <div class="col text-center border border-dark">
@@ -38,16 +39,17 @@
 
     <div class="row m-4 border border-dark">
         <div class="col-3 text-center m-3">
-            <span class="h3">Add Organization</span>
+            <span class="h3">Edit Organization</span>
         </div>
         <div class="col-7 text-center m-3">
-            <form action="addOrganization" method="POST">
+            <form action="editOrganization" method="POST">
                 <div class="form-group row">
                     <label for="organizationName" class="col-3 col-form-label">
                         Name</label>
                     <div class="col-9">
                         <input type="text" name="organizationName"
-                               id="organizationName" class="form-control"/>
+                               id="organizationName" class="form-control"
+                        th:value="${organization.name}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -55,7 +57,8 @@
                         Description</label>
                     <div class="col-9">
                         <input type="text" name="organizationDescription"
-                               id="organizationDescription" class="form-control"/>
+                               id="organizationDescription" class="form-control"
+                               th:value="${organization.description}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -63,7 +66,8 @@
                         Address</label>
                     <div class="col-9">
                         <input type="text" name="organizationAddress"
-                               id="organizationAddress" class="form-control">
+                               id="organizationAddress" class="form-control"
+                               th:value="${organization.address}">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -71,7 +75,8 @@
                         Phone Number</label>
                     <div class="col-9">
                         <input type="text" name="organizationPhoneNumber"
-                               id="organizationPhoneNumber" class="form-control">
+                               id="organizationPhoneNumber" class="form-control"
+                               th:value="${organization.phoneNumber}">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -79,52 +84,23 @@
                         Email</label>
                     <div class="col-9">
                         <input type="text" name="organizationEmail"
-                               id="organizationEmail" class="form-control">
+                               id="organizationEmail" class="form-control"
+                               th:value="${organization.email}">
                     </div>
                 </div>
 
+                <input type="hidden" id="id"
+                       name="id" th:value="${organization.id}">
 
-
-                <button type="submit" class="btn btn-primary">Add Organization</button>
+                <button type="submit" class="btn btn-primary">Update Organization</button>
             </form>
         </div>
 
     </div>
-    <div class="row m-4 border border-dark">
-        <div class="col text-center m-3">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="organization : ${organizations}">
-                    <td th:text="${organization.id}">Organization ID</td>
-                    <td th:text="${organization.name}">Organization Name</td>
-                    <td th:text="${organization.description}">Organization Description</td>
-                    <td th:text="${organization.address}">Organization Address</td>
-                    <td th:text="${organization.phoneNumber}">Organization Phone Number</td>
-                    <td th:text="${organization.email}">Organization Email</td>
-                    <td><a href="#" th:href="@{/editOrganization(id=${organization.id})}">Edit</a></td>
-                    <td><a href="#" th:href="@{/deleteOrganization(id=${organization.id})}">Delete</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
 
 </div>
-
 <!-- End main body -->
 
 <!-- Optional JavaScript -->
