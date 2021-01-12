@@ -5,6 +5,7 @@ import com.sg.superhumanSightings.dao.SightingDao;
 import com.sg.superhumanSightings.dao.SuperhumanDao;
 import com.sg.superhumanSightings.entity.Location;
 import com.sg.superhumanSightings.entity.Sighting;
+import com.sg.superhumanSightings.entity.Superpower;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,4 +62,35 @@ public class LocationController {
 
         return "redirect:/locations";
     }
+
+    @GetMapping("editLocation")
+    public String editLocation(HttpServletRequest request, Model model){
+        int id = Integer.parseInt(request.getParameter("id"));
+        Location location = locationDao.getLocationById(id);
+        model.addAttribute("location", location);
+        return "editLocation";
+    }
+
+    @PostMapping("editLocation")
+    public String performEditLocation(HttpServletRequest request){
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        String name = request.getParameter("locationName");
+        String description = request.getParameter("locationDescription");
+        String address = request.getParameter("locationAddress");
+        double latitude = Double.parseDouble(request.getParameter("locationLatitude"));
+        double longitude = Double.parseDouble(request.getParameter("locationLongitude"));
+
+        Location location = locationDao.getLocationById(id);
+        location.setName(name);
+        location.setDescription(description);
+        location.setAddress(address);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+
+        locationDao.updateLocation(location);
+        return "redirect:/locations";
+
+    }
+
 }
