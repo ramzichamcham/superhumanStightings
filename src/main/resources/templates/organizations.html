@@ -36,55 +36,58 @@
         </div>
     </div>
 
-<!--    <div class="row m-4 border border-dark">-->
-<!--        <div class="col-3 text-center m-3">-->
-<!--            <span class="h3">Add Location</span>-->
-<!--        </div>-->
-<!--        <div class="col-7 text-center m-3">-->
-<!--            <form action="addLocation" method="POST">-->
-<!--                <div class="form-group row">-->
-<!--                    <label for="locationName" class="col-3 col-form-label">-->
-<!--                        Name</label>-->
-<!--                    <div class="col-9">-->
-<!--                        <input type="text" name="locationName"-->
-<!--                               id="locationName" class="form-control"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group row">-->
-<!--                    <label for="locationDescription" class="col-3 col-form-label">-->
-<!--                        Description</label>-->
-<!--                    <div class="col-9">-->
-<!--                        <input type="text" name="locationDescription"-->
-<!--                               id="locationDescription" class="form-control"/>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group row">-->
-<!--                    <label for="locationAddress" class="col-3 col-form-label">-->
-<!--                        Address</label>-->
-<!--                    <div class="col-9">-->
-<!--                        <input type="text" name="locationAddress"-->
-<!--                               id="locationAddress" class="form-control">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group row">-->
-<!--                    <label for="locationLatitude" class="col-3 col-form-label">-->
-<!--                        Latitude</label>-->
-<!--                    <div class="col-9">-->
-<!--                        <input type="text" name="locationLatitude"-->
-<!--                               id="locationLatitude" class="form-control">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group row">-->
-<!--                    <label for="locationLongitude" class="col-3 col-form-label">-->
-<!--                        Longitude</label>-->
-<!--                    <div class="col-9">-->
-<!--                        <input type="text" name="locationLongitude"-->
-<!--                               id="locationLongitude" class="form-control">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <button type="submit" class="btn btn-primary">Add Location</button>-->
-<!--            </form>-->
-<!--        </div>-->
+    <div class="row m-4 border border-dark">
+        <div class="col-3 text-center m-3">
+            <span class="h3">Add Organization</span>
+        </div>
+        <div class="col-7 text-center m-3">
+            <form action="addOrganization" method="POST">
+                <div class="form-group row">
+                    <label for="organizationName" class="col-3 col-form-label">
+                        Name</label>
+                    <div class="col-9">
+                        <input type="text" name="organizationName"
+                               id="organizationName" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="organizationDescription" class="col-3 col-form-label">
+                        Description</label>
+                    <div class="col-9">
+                        <input type="text" name="organizationDescription"
+                               id="organizationDescription" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="organizationAddress" class="col-3 col-form-label">
+                        Address</label>
+                    <div class="col-9">
+                        <input type="text" name="organizationAddress"
+                               id="organizationAddress" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="organizationPhoneNumber" class="col-3 col-form-label">
+                        Phone Number</label>
+                    <div class="col-9">
+                        <input type="text" name="organizationPhoneNumber"
+                               id="organizationPhoneNumber" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="organizationEmail" class="col-3 col-form-label">
+                        Email</label>
+                    <div class="col-9">
+                        <input type="text" name="organizationEmail"
+                               id="organizationEmail" class="form-control">
+                    </div>
+                </div>
+
+
+
+                <button type="submit" class="btn btn-primary">Add Organization</button>
+            </form>
+        </div>
 
     </div>
     <div class="row m-4 border border-dark">
@@ -111,7 +114,7 @@
                     <td th:text="${organization.address}">Organization Address</td>
                     <td th:text="${organization.phoneNumber}">Organization Phone Number</td>
                     <td th:text="${organization.email}">Organization Email</td>
-                    <td>>Edit</td>
+                    <td>Edit</td>
                     <td>Delete</td>
                 </tr>
                 </tbody>
