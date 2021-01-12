@@ -112,7 +112,7 @@
                     <td th:text="${location.latitude}">Location Latitude</td>
                     <td th:text="${location.longitude}">Location Longitude</td>
                     <td>Edit</td>
-                    <td>Delete</td>
+                    <td><a href="#" th:href="@{/deleteLocation(id=${location.id})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>

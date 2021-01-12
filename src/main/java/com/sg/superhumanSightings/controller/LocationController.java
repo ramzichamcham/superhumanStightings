@@ -53,4 +53,12 @@ public class LocationController {
         return "redirect:/locations";
 
     }
+
+    @GetMapping("deleteLocation")
+    public String deleteLocation(HttpServletRequest request){
+        int id = Integer.parseInt(request.getParameter("id"));
+        locationDao.deleteLocationById(id);
+
+        return "redirect:/locations";
+    }
 }
