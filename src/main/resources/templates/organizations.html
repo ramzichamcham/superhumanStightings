@@ -115,7 +115,7 @@
                     <td th:text="${organization.phoneNumber}">Organization Phone Number</td>
                     <td th:text="${organization.email}">Organization Email</td>
                     <td>Edit</td>
-                    <td>Delete</td>
+                    <td><a href="#" th:href="@{/deleteOrganization(id=${organization.id})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
