@@ -45,12 +45,12 @@ public class OrganizationController {
         return "redirect:/organizations";
     }
 
-    @GetMapping("deleteLocation")
-    public String deleteLocation(HttpServletRequest request){
+    @GetMapping("deleteOrganization")
+    public String deleteOrganization(HttpServletRequest request){
         int id = Integer.parseInt(request.getParameter("id"));
         organizationDao.deleteOrganizationById(id);
 
-        return "redirect:/locations";
+        return "redirect:/organizations";
     }
 
 
