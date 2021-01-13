@@ -71,4 +71,15 @@ public class SuperhumanController {
         return "redirect:/superhumans";
 
     }
+
+    @GetMapping("superhumanDetail")
+    public String courseDetail(Integer id, Model model) {
+        Superhuman superhuman = superhumanDao.getSuperhumanById(id);
+
+        model.addAttribute("superhuman", superhuman);
+        return "superhumanDetail";
+    }
+
+
+
 }

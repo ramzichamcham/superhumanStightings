@@ -110,7 +110,7 @@
                 <tr th:each="superhuman : ${superhumans}">
                     <td th:text="${superhuman.id}">Superhuman ID</td>
                     <td th:text='${superhuman.name}'>Superhuman Name</td>
-                    <td>Details</td>
+                    <td><a href="#" th:href="@{/superhumanDetail(id=${superhuman.id})}">Details</a></td>
                     <td>Edit</td>
                     <td>Delete</td>
                 </tr>
