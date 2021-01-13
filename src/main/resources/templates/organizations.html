@@ -100,10 +100,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Description</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
-                    <th>Email</th>
+<!--                    <th>Description</th>-->
+<!--                    <th>Address</th>-->
+<!--                    <th>Phone Number</th>-->
+<!--                    <th>Email</th>-->
                     <th>Edit</th>
                     <th>Delete</th>
 
@@ -113,10 +113,11 @@
                 <tr th:each="organization : ${organizations}">
                     <td th:text="${organization.id}">Organization ID</td>
                     <td th:text="${organization.name}">Organization Name</td>
-                    <td th:text="${organization.description}">Organization Description</td>
-                    <td th:text="${organization.address}">Organization Address</td>
-                    <td th:text="${organization.phoneNumber}">Organization Phone Number</td>
-                    <td th:text="${organization.email}">Organization Email</td>
+<!--                    <td th:text="${organization.description}">Organization Description</td>-->
+<!--                    <td th:text="${organization.address}">Organization Address</td>-->
+<!--                    <td th:text="${organization.phoneNumber}">Organization Phone Number</td>-->
+<!--                    <td th:text="${organization.email}">Organization Email</td>-->
+                    <td><a href="#" th:href="@{/organizationDetail(id=${organization.id})}">Details</a></td>
                     <td><a href="#" th:href="@{/editOrganization(id=${organization.id})}">Edit</a></td>
                     <td><a href="#" th:href="@{/deleteOrganization(id=${organization.id})}">Delete</a></td>
                 </tr>

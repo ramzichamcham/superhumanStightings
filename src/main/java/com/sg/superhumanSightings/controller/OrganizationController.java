@@ -2,6 +2,7 @@ package com.sg.superhumanSightings.controller;
 
 import com.sg.superhumanSightings.dao.OrganizationDao;
 import com.sg.superhumanSightings.entity.Organization;
+import com.sg.superhumanSightings.entity.Superhuman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,6 +82,14 @@ public class OrganizationController {
         organizationDao.updateOrganization(organization);
         return "redirect:/organizations";
 
+    }
+
+    @GetMapping("organizationDetail")
+    public String superhumanDetail(Integer id, Model model) {
+        Organization organization = organizationDao.getOrganizationById(id);
+
+        model.addAttribute("organization", organization);
+        return "organizationDetail";
     }
 
 
