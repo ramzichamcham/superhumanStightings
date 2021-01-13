@@ -21,7 +21,7 @@
     </div>
     <div class="row m-4 border border-dark">
         <div class="col text-center m-2">
-            <a href="index" class="btn btn-outline-primary btn-lg">Home</a>
+            <a href="/" class="btn btn-outline-primary btn-lg">Home</a>
         </div>
         <div class="col text-center m-2">
             <a href="superhumans" class="btn btn-outline-primary btn-lg">Superhumans</a>
@@ -42,25 +42,48 @@
 
     <div class="row m-4 border border-dark">
 
-        <div class="col-12">
-            <div class="row m-2">
-                <div class="col-3 text-center m-2">
+            <div class="row m-3">
+
                     <span class="h3">About HSM:</span>
-                </div>
             </div>
             <div class="row m-1">
-                <div class="col-6">
-                    <p>In this Superhuman Sightings management tool, you can create, view, edit, delete superhumans,
-                        superpowers, locations, organizaitons and sightings
+                <div class="col-5">
+                    <h5>In this Superhuman Sightings management tool you can create, view, edit and delete superhumans,
+                        superpowers, locations, organizations and sightings
+                    </h5>
                     </p>
                 </div>
             </div>
-        </div>
     </div>
 
-<!--    <div class="row m-4 border border-dark">-->
-<!--        10 most recent sightings-->
-<!--    </div>-->
+    <div class="row m-4 border border-dark">
+
+        <div class="col text-center m-3">
+            <div class="row m-3">
+                <span class="h3">Most recent sightings</span>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Superhuman</th>
+                    <th>Location</th>
+                    <th>Date</th>
+                    <th>Time</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sighting : ${sightings}">
+                    <td th:text="${sighting.superhuman.name}">Superhuman Name</td>
+                    <td th:text="${sighting.location.name}">Location Name</td>
+                    <td th:text="${sighting.dateTime.toLocalDate()}">Sighting Date</td>
+                    <td th:text="${sighting.dateTime.toLocalTime()}">Sighting time</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
 <!-- End main body -->
