@@ -11,7 +11,7 @@ import java.util.List;
 public interface SightingDao {
 
     List<Sighting> getAllSightings();
-    public void deleteSighting(Sighting sighting);
+    public void deleteSighting(LocalDateTime dateTime, int superhumanId, int locationId);
 
     Sighting addSighting(Sighting sighting);
     List<Sighting> getSightingsForDate(Date date);

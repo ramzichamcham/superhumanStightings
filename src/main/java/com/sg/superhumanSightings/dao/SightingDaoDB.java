@@ -26,16 +26,16 @@ public class SightingDaoDB implements SightingDao{
     }
 
     @Override
-    public void deleteSighting(Sighting sighting) {
+    public void deleteSighting(LocalDateTime dateTime, int superhumanId, int locationId) {
         final String DELETE_SIGHTING =
                 "DELETE FROM sighting " +
                         "WHERE superhuman_id = ? " +
                         "AND location_id = ? " +
                         "AND dateTime = ?";
         jdbc.update(DELETE_SIGHTING,
-                sighting.getSuperhuman().getId(),
-                sighting.getLocation().getId(),
-                Timestamp.valueOf(sighting.getDateTime()));
+                superhumanId,
+                locationId,
+                Timestamp.valueOf(dateTime));
     }
 
 //    @Override
