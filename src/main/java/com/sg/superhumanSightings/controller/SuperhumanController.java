@@ -87,5 +87,46 @@ public class SuperhumanController {
         return "redirect:/superhumans";
     }
 
+    @GetMapping("editSuperhuman")
+    public String editSuperhuman(Integer id, Model model) {
+        Superhuman superhuman = superhumanDao.getSuperhumanById(id);
+        List<Superpower> superpowers = superpowerDao.getAllSuperpowers();
+        List<Organization> organizations = organizationDao.getAllOrganizations();
+
+        model.addAttribute("superhuman", superhuman);
+        model.addAttribute("superpowers", superpowers);
+        model.addAttribute("organizations", organizations);
+        return "editSuperhuman";
+    }
+
+    @PostMapping("editSuperhuman")
+    public String performEditCourse(Superhuman superhuman, HttpServletRequest request) {
+
+        String name = request.getParameter("superhumanName");
+        String description = request.getParameter("superhumanDescription");
+
+        String[] superpowerIds = request.getParameterValues("superhumanSuperpowers");
+        String[] organizationIds = request.getParameterValues("superhumanOrganizations");
+
+        List<Superpower> superpowers = new ArrayList<>();
+        for(String superpowerId: superpowerIds){
+            superpowers.add(superpowerDao.getSuperpowerById(Integer.parseInt(superpowerId)));
+        }
+
+        List<Organization> organizations = new ArrayList<>();
+        for(String organizationId: organizationIds){
+            organizations.add(organizationDao.getOrganizationById(Integer.parseInt(organizationId)));
+        }
+
+        superhuman.setName(name);
+        superhuman.setDescription(description);
+        superhuman.setSuperpowers(superpowers);
+        superhuman.setOrganizations(organizations);
+
+        superhumanDao.updateSuperhuman(superhuman);
+
+        return "redirect:/superhumans";
+    }
+
 
 }
