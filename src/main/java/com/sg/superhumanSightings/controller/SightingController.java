@@ -8,6 +8,7 @@ import com.sg.superhumanSightings.entity.Location;
 import com.sg.superhumanSightings.entity.Organization;
 import com.sg.superhumanSightings.entity.Sighting;
 import com.sg.superhumanSightings.entity.Superhuman;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,6 +66,17 @@ public class SightingController {
 
         sightingDao.addSighting(sighting);
 
+        return "redirect:/sightings";
+    }
+
+
+    @GetMapping("deleteSighting")
+    public String deleteSighting(HttpServletRequest request, Integer superhumanId, Integer locationId) {
+            String stringDateTime = request.getParameter("dateTime");
+
+            LocalDateTime dateTime= LocalDateTime.parse(stringDateTime);
+
+        sightingDao.deleteSighting(dateTime, superhumanId, locationId);
         return "redirect:/sightings";
     }
 

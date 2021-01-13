@@ -103,19 +103,21 @@
                 <tr>
                     <th>Superhuman</th>
                     <th>Location</th>
+                    <th>Date</th>
                     <th>Time</th>
-                    <th>Edit</th>
                     <th>Delete</th>
 
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="sighting : ${sightings}">
-                    <td th:text="${sighting.getSuperhuman().getName()}">Superhuman Name</td>
-                    <td th:text="${sighting.getLocation().getName()}">Location Name</td>
-                    <td th:text="${sighting.getDateTime()}">Sighting time</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <td th:text="${sighting.superhuman.name}">Superhuman Name</td>
+                    <td th:text="${sighting.location.name}">Location Name</td>
+                    <td th:text="${sighting.dateTime.toLocalDate()}">Sighting Date</td>
+                    <td th:text="${sighting.dateTime.toLocalTime()}">Sighting time</td>
+                    <td><a href="#"
+                           th:href="@{/deleteSighting(dateTime=${sighting.dateTime},
+                           superhumanId=${sighting.superhuman.id},locationId=${sighting.location.id})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
