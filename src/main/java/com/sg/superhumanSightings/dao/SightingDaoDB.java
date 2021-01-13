@@ -31,7 +31,7 @@ public class SightingDaoDB implements SightingDao{
                 "DELETE FROM sighting " +
                         "WHERE superhuman_id = ? " +
                         "AND location_id = ? " +
-                        "AND dateTime = ?";
+                        "AND date_time = ?";
         jdbc.update(DELETE_SIGHTING,
                 superhumanId,
                 locationId,
