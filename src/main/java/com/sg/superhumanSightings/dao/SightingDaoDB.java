@@ -20,6 +20,14 @@ public class SightingDaoDB implements SightingDao{
     JdbcTemplate jdbc;
 
     @Override
+    public List<Sighting> getAllSightings() {
+        final String SELECT_ALL_SIGHTINGS = "SELECT * FROM sighting";
+        List<Sighting> sightings = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingMapper());
+        associateSuperhumanAndLocation(sightings);
+        return sightings;
+    }
+
+    @Override
     public Sighting addSighting(Sighting sighting) {
         final String INSERT_SIGHTING = "INSERT INTO sighting(superhuman_id, location_id, date_time) " +
                 "VALUES(?, ?, ?)";

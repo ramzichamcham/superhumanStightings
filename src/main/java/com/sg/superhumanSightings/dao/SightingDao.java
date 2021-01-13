@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface SightingDao {
 
+    List<Sighting> getAllSightings();
     Sighting addSighting(Sighting sighting);
     List<Sighting> getSightingsForDate(Date date);
     List<Superhuman> getSuperhumansForLocation(Location loc);

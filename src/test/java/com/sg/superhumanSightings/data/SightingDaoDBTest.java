@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,92 @@ public class SightingDaoDBTest {
         for(Superpower sp: superpowers){
             superpowerDao.deleteSuperpowerById(sp.getId());
         }
+    }
+
+    @Test
+    public void testGetAllSightings(){
+
+        //create new superhuman
+        Superhuman sh = new Superhuman();
+        sh.setName("Superman");
+        sh.setDescription("A man that is super");
+
+        //add superpowers to sh
+        List<Superpower> superpowers = new ArrayList<>();
+        Superpower power = new Superpower();
+        power.setName("fly");
+        power.setDescription("Ability to fly");
+        superpowerDao.addSuperpower(power);
+        superpowers.add(power);
+        sh.setSuperpowers(superpowers);
+
+        //add organizations to sh
+        List<Organization> organizations = new ArrayList<>();
+        Organization org = new Organization();
+        org.setName("Super people institute");
+        org.setAddress("Cambridge, MA, United States");
+        org.setDescription("Learn to fly");
+        org.setEmail("superpeople@gmail.com");
+        org.setPhoneNumber("415-290-7907");
+        organizationDao.addOrganization(org);
+        organizations.add(org);
+        sh.setOrganizations(organizations);
+
+        superhumanDao.addSuperhuman(sh);
+
+        //create new loc
+        Location loc = new Location();
+        loc.setName("Times Square");
+        loc.setAddress("Manhattan, NY 10036, United States");
+        loc.setLongitude(-73.985130);
+        loc.setLatitude(40.758896);
+        loc.setDescription("Famous central square in the Theater District of Manhattan");
+
+        locationDao.addLocation(loc);
+
+        //create another loc
+        Location loc2 = new Location();
+        loc2.setName("The Bridge");
+        loc2.setAddress("Manhattan, NY 94210, United States");
+        loc2.setLongitude(-73.012456);
+        loc2.setLatitude(40.758896);
+        loc2.setDescription("Famous central square in the Theater District of Manhattan");
+
+        locationDao.addLocation(loc2);
+
+        //create new LocalDateTime
+        LocalDateTime dateTime = service.localDateTimeNow();
+
+        //create new sighting
+        Sighting sighting = new Sighting();
+        sighting.setSuperhuman(sh);
+        sighting.setLocation(loc);
+        sighting.setDateTime(dateTime);
+
+        //add new sighting
+        sightingDao.addSighting(sighting);
+
+        //local date + local time
+        LocalDate date = LocalDate.of(2021, 01, 2);
+        LocalTime time = LocalTime.of(10, 34);
+
+        LocalDateTime dateTime2 = LocalDateTime.of(date, time);
+
+        //create another sighting
+        Sighting sighting2 = new Sighting();
+        sighting2.setSuperhuman(sh);
+        sighting2.setLocation(loc2);
+        sighting2.setDateTime(dateTime2);
+
+        sightingDao.addSighting(sighting2);
+
+        List<Sighting> allSightingsFromDao = sightingDao.getAllSightings();
+
+        assertEquals(2, allSightingsFromDao.size());
+        assertEquals(sighting, allSightingsFromDao.get(0));
+        assertEquals(sighting2, allSightingsFromDao.get(1));
+        assertTrue(allSightingsFromDao.contains(sighting));
+        assertTrue(allSightingsFromDao.contains(sighting2));
     }
 
     @Test
