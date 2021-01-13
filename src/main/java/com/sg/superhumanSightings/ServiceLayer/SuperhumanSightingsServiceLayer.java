@@ -7,5 +7,6 @@ public interface SuperhumanSightingsServiceLayer {
 
     public Date localDateTimetoSQLDate(LocalDateTime dateTime);
     public LocalDateTime localDateTimeNow();
+    public LocalDateTime stringsToLocalDatetime(String date, String time);
 
 }
