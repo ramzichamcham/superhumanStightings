@@ -85,7 +85,7 @@ public class OrganizationController {
     }
 
     @GetMapping("organizationDetail")
-    public String superhumanDetail(Integer id, Model model) {
+    public String organizationDetail(Integer id, Model model) {
         Organization organization = organizationDao.getOrganizationById(id);
 
         model.addAttribute("organization", organization);
