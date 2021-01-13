@@ -5,11 +5,14 @@ import com.sg.superhumanSightings.entity.Sighting;
 import com.sg.superhumanSightings.entity.Superhuman;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface SightingDao {
 
     List<Sighting> getAllSightings();
+    public void deleteSighting(Sighting sighting);
+
     Sighting addSighting(Sighting sighting);
     List<Sighting> getSightingsForDate(Date date);
     List<Superhuman> getSuperhumansForLocation(Location loc);

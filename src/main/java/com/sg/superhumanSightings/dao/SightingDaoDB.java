@@ -7,10 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,6 +24,29 @@ public class SightingDaoDB implements SightingDao{
         associateSuperhumanAndLocation(sightings);
         return sightings;
     }
+
+    @Override
+    public void deleteSighting(Sighting sighting) {
+        final String DELETE_SIGHTING =
+                "DELETE FROM sighting " +
+                        "WHERE superhuman_id = ? " +
+                        "AND location_id = ? " +
+                        "AND dateTime = ?";
+        jdbc.update(DELETE_SIGHTING,
+                sighting.getSuperhuman().getId(),
+                sighting.getLocation().getId(),
+                Timestamp.valueOf(sighting.getDateTime()));
+    }
+
+//    @Override
+//    public void updateSighting(Sighting sighting) {
+//        final String UPDATE_SIGHTING =
+//                "UPDATE sighting SET superhuman_id = ?, location_id = ?, dateTime =? " +
+//                        "WHERE superhuman_id = ? " +
+//                        "AND location_id = ? " +
+//                        "AND dateTime = ?";
+//        jdbc.update(UPDATE_SIGHTING, )
+//    }
 
     @Override
     public Sighting addSighting(Sighting sighting) {
