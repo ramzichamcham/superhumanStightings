@@ -2,6 +2,7 @@ package com.sg.superhumanSightings.dao;
 
 import com.sg.superhumanSightings.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -53,23 +54,22 @@ public class SightingDaoDB implements SightingDao{
 
     private void associateSuperhumanAndLocation(List<Sighting> sightings){
         for (Sighting sighting: sightings){
-            sighting.setSuperhuman(getSuperhumanForSighting(sighting.getDateTime()));
-            sighting.setLocation(getLocationForSighting(sighting.getDateTime()));
+            sighting.setSuperhuman(getSuperhumanForSighting(sighting.getSuperhuman().getId()));
+            sighting.setLocation(getLocationForSighting(sighting.getLocation().getId()));
         }
     }
 
-    private Superhuman getSuperhumanForSighting(LocalDateTime time){
-        final String SELECT_SUPERHUMAN_FOR_SIGHTING=
-                "SELECT superhuman.* " +
-                        "FROM superhuman " +
-                        "JOIN sighting " +
-                        "ON sighting.superhuman_id = superhuman.id " +
-                        "WHERE sighting.date_time = ?";
+    private Superhuman getSuperhumanForSighting(int id ){
+        try{
+            final String SELECT_SUPERHUMAN_BY_ID = "SELECT * FROM superhuman WHERE id = ?";
+            Superhuman sh = jdbc.queryForObject(SELECT_SUPERHUMAN_BY_ID, new SuperhumanDaoDB.SuperhumanMapper(), id);
+            sh.setOrganizations(getOrganizationsForSuperhuman(sh.getId()));
+            sh.setSuperpowers(getSuperpowersForSuperhuman(sh.getId()));
+            return sh;
 
-        Superhuman sh = jdbc.queryForObject(SELECT_SUPERHUMAN_FOR_SIGHTING, new SuperhumanDaoDB.SuperhumanMapper(), Timestamp.valueOf(time));
-        sh.setOrganizations(getOrganizationsForSuperhuman(sh.getId()));
-        sh.setSuperpowers(getSuperpowersForSuperhuman(sh.getId()));
-        return sh;
+        }catch(DataAccessException ex){
+            return null;
+        }
     }
 
     private List<Superpower> getSuperpowersForSuperhuman(int id) {
@@ -91,16 +91,13 @@ public class SightingDaoDB implements SightingDao{
         return jdbc.query(SELECT_ORGANIZATIONS_FOR_SUPERHUMAN, new OrganizationDaoDB.OrganizationMapper(), id);
     }
 
-    private Location getLocationForSighting(LocalDateTime time){
-        final String SELECT_LOCATION_FOR_SIGHTING=
-                "SELECT location.* " +
-                        "FROM location " +
-                        "JOIN sighting " +
-                        "ON sighting.location_id = location.id " +
-                        "WHERE sighting.date_time = ?";
-
-        return jdbc.queryForObject(SELECT_LOCATION_FOR_SIGHTING, new LocationDaoDB.LocationMapper(), Timestamp.valueOf(time));
-
+    private Location getLocationForSighting(int id){
+        try {
+            final String SELECT_LOCATION_BY_ID = "SELECT * FROM location WHERE id = ?";
+            return jdbc.queryForObject(SELECT_LOCATION_BY_ID, new LocationDaoDB.LocationMapper(), id);
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -139,7 +136,19 @@ public class SightingDaoDB implements SightingDao{
         @Override
         public Sighting mapRow(ResultSet rs, int i) throws SQLException {
             Sighting sighting = new Sighting();
+
+            //create new location and superhuman
+            Location loc = new Location();
+            Superhuman sh = new Superhuman();
+
             sighting.setDateTime(rs.getTimestamp("date_time").toLocalDateTime());
+            //set location's id and superhuman's id
+            loc.setId(rs.getInt("location_id"));
+            sh.setId(rs.getInt("superhuman_id"));
+
+            sighting.setSuperhuman(sh);
+            sighting.setLocation(loc);
+
 
             return sighting;
         }
