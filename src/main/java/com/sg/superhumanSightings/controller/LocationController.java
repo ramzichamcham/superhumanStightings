@@ -4,6 +4,7 @@ import com.sg.superhumanSightings.dao.LocationDao;
 import com.sg.superhumanSightings.dao.SightingDao;
 import com.sg.superhumanSightings.dao.SuperhumanDao;
 import com.sg.superhumanSightings.entity.Location;
+import com.sg.superhumanSightings.entity.Organization;
 import com.sg.superhumanSightings.entity.Sighting;
 import com.sg.superhumanSightings.entity.Superpower;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,14 @@ public class LocationController {
         locationDao.updateLocation(location);
         return "redirect:/locations";
 
+    }
+
+    @GetMapping("locationDetail")
+    public String superhumanDetail(Integer id, Model model) {
+        Location location = locationDao.getLocationById(id);
+
+        model.addAttribute("location", location);
+        return "locationDetail";
     }
 
 }

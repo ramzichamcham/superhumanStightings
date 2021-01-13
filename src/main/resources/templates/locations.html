@@ -96,11 +96,11 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
+<!--                    <th>Name</th>-->
+<!--                    <th>Description</th>-->
                     <th>Address</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
+<!--                    <th>Latitude</th>-->
+<!--                    <th>Longitude</th>-->
                     <th>Edit</th>
                     <th>Delete</th>
 
@@ -109,11 +109,12 @@
                 <tbody>
                 <tr th:each="location : ${locations}">
                     <td th:text="${location.id}">Location ID</td>
-                    <td th:text="${location.name}">Location Name</td>
-                    <td th:text="${location.description}">Location Description</td>
+<!--                    <td th:text="${location.name}">Location Name</td>-->
+<!--                    <td th:text="${location.description}">Location Description</td>-->
                     <td th:text="${location.address}">Location Address</td>
-                    <td th:text="${location.latitude}">Location Latitude</td>
-                    <td th:text="${location.longitude}">Location Longitude</td>
+<!--                    <td th:text="${location.latitude}">Location Latitude</td>-->
+<!--                    <td th:text="${location.longitude}">Location Longitude</td>-->
+                    <td><a href="#" th:href="@{/locationDetail(id=${location.id})}">Details</a></td>
                     <td><a href="#" th:href="@{/editLocation(id=${location.id})}">Edit</a></td>
                     <td><a href="#" th:href="@{/deleteLocation(id=${location.id})}">Delete</a></td>
                 </tr>
