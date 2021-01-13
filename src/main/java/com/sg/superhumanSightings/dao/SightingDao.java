@@ -12,6 +12,7 @@ public interface SightingDao {
 
     List<Sighting> getAllSightings();
     public void deleteSighting(LocalDateTime dateTime, int superhumanId, int locationId);
+    public List<Sighting> getRecentSightings(int x);
 
     Sighting addSighting(Sighting sighting);
     List<Sighting> getSightingsForDate(Date date);

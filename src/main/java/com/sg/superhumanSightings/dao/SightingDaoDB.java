@@ -38,15 +38,14 @@ public class SightingDaoDB implements SightingDao{
                 Timestamp.valueOf(dateTime));
     }
 
-//    @Override
-//    public void updateSighting(Sighting sighting) {
-//        final String UPDATE_SIGHTING =
-//                "UPDATE sighting SET superhuman_id = ?, location_id = ?, dateTime =? " +
-//                        "WHERE superhuman_id = ? " +
-//                        "AND location_id = ? " +
-//                        "AND dateTime = ?";
-//        jdbc.update(UPDATE_SIGHTING, )
-//    }
+    @Override
+    public List<Sighting> getRecentSightings(int x) {
+        final String SELECT_RECENT = "SELECT * FROM sighting ORDER BY date_time DESC LIMIT ?";
+        List<Sighting> sightings = jdbc.query(SELECT_RECENT, new SightingMapper(), x);
+        associateSuperhumanAndLocation(sightings);
+        return sightings;
+    }
+
 
     @Override
     public Sighting addSighting(Sighting sighting) {
