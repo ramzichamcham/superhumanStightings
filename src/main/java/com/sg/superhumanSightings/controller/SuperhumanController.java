@@ -73,13 +73,19 @@ public class SuperhumanController {
     }
 
     @GetMapping("superhumanDetail")
-    public String courseDetail(Integer id, Model model) {
+    public String superhumanDetail(Integer id, Model model) {
         Superhuman superhuman = superhumanDao.getSuperhumanById(id);
 
         model.addAttribute("superhuman", superhuman);
         return "superhumanDetail";
     }
 
+
+    @GetMapping("deleteSuperhuman")
+    public String deleteCourse(Integer id) {
+        superhumanDao.deleteSuperhumanById(id);
+        return "redirect:/superhumans";
+    }
 
 
 }

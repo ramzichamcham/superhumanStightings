@@ -112,7 +112,7 @@
                     <td th:text='${superhuman.name}'>Superhuman Name</td>
                     <td><a href="#" th:href="@{/superhumanDetail(id=${superhuman.id})}">Details</a></td>
                     <td>Edit</td>
-                    <td>Delete</td>
+                    <td><a href="#" th:href="@{/deleteSuperhuman(id=${superhuman.id})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
