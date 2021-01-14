@@ -4,10 +4,7 @@ import com.sg.superhumanSightings.ServiceLayer.SuperhumanSightingsServiceLayer;
 import com.sg.superhumanSightings.dao.LocationDao;
 import com.sg.superhumanSightings.dao.SightingDao;
 import com.sg.superhumanSightings.dao.SuperhumanDao;
-import com.sg.superhumanSightings.entity.Location;
-import com.sg.superhumanSightings.entity.Organization;
-import com.sg.superhumanSightings.entity.Sighting;
-import com.sg.superhumanSightings.entity.Superhuman;
+import com.sg.superhumanSightings.entity.*;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -80,6 +78,62 @@ public class SightingController {
         return "redirect:/sightings";
     }
 
+    @GetMapping("editSighting")
+    public String EditSighting(HttpServletRequest request, Integer superhumanId, Integer locationId, Model model) {
+        //construct sighting to edit
+        String stringDateTime = request.getParameter("dateTime");
+        LocalDateTime dateTime= LocalDateTime.parse(stringDateTime);
 
+        Superhuman superhuman = superhumanDao.getSuperhumanById(superhumanId);
+        Location location = locationDao.getLocationById(locationId);
+
+        Sighting sighting = new Sighting();
+        sighting.setSuperhuman(superhuman);
+        sighting.setLocation(location);
+        sighting.setDateTime(dateTime);
+
+        //get superhumans
+        List<Superhuman> superhumans = superhumanDao.getAllSuperhumans();
+
+        //get locations
+        List<Location> locations = locationDao.getAllLocations();
+
+        model.addAttribute("sightingToEdit", sighting);
+        model.addAttribute("superhumans", superhumans);
+        model.addAttribute("locations", locations);
+
+        return "editSighting";
+    }
+
+
+    @PostMapping("editSighting")
+    public String performEditSighting(HttpServletRequest request){
+        //delete sighting to edit
+        int superhumanToEditId = Integer.parseInt(request.getParameter("superhumanToEditId"));
+        int locationToEditId = Integer.parseInt(request.getParameter("locationToEditId"));
+        String dateTimeToEditString = request.getParameter("dateTimeToEdit");
+        LocalDateTime dateTimeToEdit = LocalDateTime.parse(dateTimeToEditString);
+        sightingDao.deleteSighting(dateTimeToEdit, superhumanToEditId, locationToEditId);
+
+        //Add new Sighting with new values
+        String superhumanId = request.getParameter("newSightingSuperhuman");
+        String locationId = request.getParameter("newSightingLocation");
+        String date = request.getParameter("newSightingDate");
+        String time = request.getParameter("newSightingTime");
+
+        Superhuman superhuman = superhumanDao.getSuperhumanById(Integer.parseInt(superhumanId));
+        Location location = locationDao.getLocationById(Integer.parseInt(locationId));
+        LocalDateTime dateTime = service.stringsToLocalDatetime(date, time);
+
+        Sighting sighting = new Sighting();
+        sighting.setLocation(location);
+        sighting.setSuperhuman(superhuman);
+        sighting.setDateTime(dateTime);
+
+        sightingDao.addSighting(sighting);
+
+        return "redirect:/sightings";
+
+    }
 
 }

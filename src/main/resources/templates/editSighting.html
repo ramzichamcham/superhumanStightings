@@ -12,6 +12,7 @@
 </head>
 <body>
 <!-- Main Body of Page -->
+
 <div class="container">
     <div class="row m-4">
         <div class="col text-center border border-dark">
@@ -41,92 +42,69 @@
 
     <div class="row m-4 border border-dark">
         <div class="col-3 text-center m-3">
-            <span class="h3">Add Sighting</span>
+            <span class="h3">Edit Sighting</span>
         </div>
         <div class="col-7 text-center m-3">
-            <form action="addSighting" method="POST">
+            <form action="editSighting" method="POST">
                 <div class="form-group row">
-                    <label for="SightingSuperhuman" class="col-3 col-form-label">
+                    <label for="newSightingSuperhuman" class="col-3 col-form-label">
                         Superhuman</label>
                     <div class="col-9">
-                        <select id="sightingSuperhuman"
-                                name="sightingSuperhuman"
+                        <select id="newSightingSuperhuman"
+                                name="newSightingSuperhuman"
                                 class="form-control" >
                             <option th:each="superhuman : ${superhumans}"
                                     th:value="${superhuman.id}"
-                                    th:text="${superhuman.name}">
+                                    th:text="${superhuman.name}"
+                                    th:selected="${sightingToEdit.superhuman.id == superhuman.id}">
                                 Superhuman Name</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="sightingLocation" class="col-3 col-form-label">
+                    <label for="newSightingLocation" class="col-3 col-form-label">
                         Location</label>
                     <div class="col-9">
-                        <select id="sightingLocation"
-                                name="sightingLocation"
+                        <select id="newSightingLocation"
+                                name="newSightingLocation"
                                 class="form-control" >
                             <option th:each="location : ${locations}"
                                     th:value="${location.id}"
-                                    th:text="${location.name}">
+                                    th:text="${location.name}"
+                                    th:selected="${sightingToEdit.location.id == location.id}">
                                 Location Name</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="sightingDate" class="col-3 col-form-label">
+                    <label for="newSightingDate" class="col-3 col-form-label"
+                    >
                         Date seen
                     </label>
                     <div class="col-9">
-                        <input type="date" id="sightingDate" name="sightingDate" class="form-control">
+                        <input type="date" id="newSightingDate" name="newSightingDate" class="form-control"
+                               th:value="${sightingToEdit.dateTime.toLocalDate()}">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="sightingTime" class="col-3 col-form-label">
+                    <label for="newSightingTime" class="col-3 col-form-label">
                         Time seen
                     </label>
                     <div class="col-9">
-                        <input type="time" id="sightingTime" name="sightingTime" class="form-control">
+                        <input type="time" id="newSightingTime" name="newSightingTime" class="form-control"
+                               th:value="${sightingToEdit.dateTime.toLocalTime()}">
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Add Sighting</button>
+                <input type="hidden" name="superhumanToEditId" th:value="${sightingToEdit.superhuman.id}">
+                <input type="hidden" name="locationToEditId" th:value="${sightingToEdit.location.id}">
+                <input type="hidden" name="dateTimeToEdit" th:value="${sightingToEdit.dateTime}">
+
+                <button type="submit" class="btn btn-primary">Update Sighting</button>
             </form>
-        </div>
-
-    </div>
-
-    <div class="row m-4 border border-dark">
-        <div class="col text-center m-3">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Superhuman</th>
-                    <th>Location</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Delete</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="sighting : ${sightings}">
-                    <td th:text="${sighting.superhuman.name}">Superhuman Name</td>
-                    <td th:text="${sighting.location.name}">Location Name</td>
-                    <td th:text="${sighting.dateTime.toLocalDate()}">Sighting Date</td>
-                    <td th:text="${sighting.dateTime.toLocalTime()}">Sighting time</td>
-                    <td><a href="#"
-                           th:href="@{/editSighting(dateTime=${sighting.dateTime},
-                           superhumanId=${sighting.superhuman.id},locationId=${sighting.location.id})}">Edit</a></td>
-                    <td><a href="#"
-                           th:href="@{/deleteSighting(dateTime=${sighting.dateTime},
-                           superhumanId=${sighting.superhuman.id},locationId=${sighting.location.id})}">Delete</a></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 

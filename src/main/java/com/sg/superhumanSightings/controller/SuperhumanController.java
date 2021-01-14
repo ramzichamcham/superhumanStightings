@@ -100,7 +100,7 @@ public class SuperhumanController {
     }
 
     @PostMapping("editSuperhuman")
-    public String performEditCourse(Superhuman superhuman, HttpServletRequest request) {
+    public String performEditSuperhuman(Superhuman superhuman, HttpServletRequest request) {
 
         String name = request.getParameter("superhumanName");
         String description = request.getParameter("superhumanDescription");
