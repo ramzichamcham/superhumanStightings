@@ -1,11 +1,15 @@
 package com.sg.superhumanSightings.entity;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
 public class Superhuman {
 
     private int id;
+    @NotBlank(message="Name must not be empty.")
+    @Size(max = 100, message = "Name must be less than 100 characters.")
     private String name;
     private String description;
     private List<Organization> organizations;
@@ -61,8 +65,8 @@ public class Superhuman {
         return id == that.id &&
                 name.equals(that.name) &&
                 Objects.equals(description, that.description) &&
-                organizations.equals(that.organizations) &&
-                superpowers.equals(that.superpowers);
+                Objects.equals(organizations, that.organizations) &&
+                Objects.equals(superpowers, that.superpowers);
     }
 
     @Override

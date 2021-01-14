@@ -40,6 +40,11 @@
     </div>
 
     <div class="row m-4 border border-dark">
+        <div class="col-12 m-1 text-center"
+             th:if="${!errors.isEmpty()}">
+            <p class="alert alert-danger" th:each="error : ${errors}"
+               th:text="${error.message}">Error message</p>
+        </div>
         <div class="col-3 text-center m-3">
             <span class="h3">Add Superhuman</span>
         </div>
@@ -51,6 +56,10 @@
                     <div class="col-9">
                         <input type="text" name="name"
                                id="name" class="form-control"/>
+<!--                        <div th:if="${#fields.hasErrors('superhuman.name')}">-->
+<!--                            <p th:each="error : ${#fields.errors('superhuman.name')}"-->
+<!--                               class="alert alert-danger" th:text="${error}"> Bad first name </p>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <div class="form-group row">
