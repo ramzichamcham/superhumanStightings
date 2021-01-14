@@ -116,11 +116,13 @@ public class SuperhumanController {
         model.addAttribute("superhuman", superhuman);
         model.addAttribute("superpowers", superpowers);
         model.addAttribute("organizations", organizations);
+        model.addAttribute("errors", violations);
+
         return "editSuperhuman";
     }
 
     @PostMapping("editSuperhuman")
-    public String performEditSuperhuman(Superhuman superhuman, HttpServletRequest request) {
+    public String performEditSuperhuman(Superhuman superhuman, HttpServletRequest request, Model model) {
 
 
         String[] superpowerIds = request.getParameterValues("superpowerIds");
@@ -139,9 +141,21 @@ public class SuperhumanController {
         superhuman.setSuperpowers(superpowers);
         superhuman.setOrganizations(organizations);
 
-        superhumanDao.updateSuperhuman(superhuman);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(superhuman);
 
-        return "redirect:/superhumans";
+        if(violations.isEmpty()){
+            superhumanDao.updateSuperhuman(superhuman);
+            return "redirect:/superhumans";
+        }else{
+            model.addAttribute("errors", violations);
+            model.addAttribute("superhuman", superhuman);
+            List<Superpower> allSuperpowers = superpowerDao.getAllSuperpowers();
+            List<Organization> allOrganizations = organizationDao.getAllOrganizations();
+            model.addAttribute("superpowers", allSuperpowers);
+            model.addAttribute("organizations", allOrganizations);
+            return "editSuperhuman";
+        }
     }
 
 
