@@ -46,19 +46,19 @@
         <div class="col-7 text-center m-3">
             <form action="addSuperhuman" method="POST">
                 <div class="form-group row">
-                    <label for="superhumanName" class="col-3 col-form-label">
+                    <label for="name" class="col-3 col-form-label">
                         Name</label>
                     <div class="col-9">
-                        <input type="text" name="superhumanName"
-                               id="superhumanName" class="form-control"/>
+                        <input type="text" name="name"
+                               id="name" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="superhumanDescription" class="col-3 col-form-label">
+                    <label for="description" class="col-3 col-form-label">
                         Description</label>
                     <div class="col-9">
-                        <input type="text" name="superhumanDescription"
-                               id="superhumanDescription" class="form-control"/>
+                        <input type="text" name="description"
+                               id="description" class="form-control"/>
                     </div>
                 </div>
 
@@ -67,7 +67,7 @@
                         Superpowers</label>
                     <div class="col-9">
                         <select multiple id="superhumanSuperpowers"
-                                name="superhumanSuperpowers"
+                                name="superpowerIds"
                                 class="form-control" >
                             <option th:each="superpower : ${superpowers}"
                                     th:value="${superpower.id}"
@@ -82,7 +82,7 @@
                         Organizations</label>
                     <div class="col-9">
                         <select multiple id="superhumanOrganizations"
-                                name="superhumanOrganizations"
+                                name="organizationIds"
                                 class="form-control" >
                             <option th:each="organization : ${organizations}"
                                     th:value="${organization.id}"

@@ -42,14 +42,14 @@ public class SuperhumanController {
 
 
     @PostMapping("addSuperhuman")
-    public String addSuperhuman(HttpServletRequest request){
-        Superhuman superhuman = new Superhuman();
+    public String addSuperhuman(Superhuman superhuman, HttpServletRequest request){
+//        Superhuman superhuman = new Superhuman();
+//
+//        String name = request.getParameter("superhumanName");
+//        String description = request.getParameter("superhumanDescription");
 
-        String name = request.getParameter("superhumanName");
-        String description = request.getParameter("superhumanDescription");
-
-        String[] superpowerIds = request.getParameterValues("superhumanSuperpowers");
-        String[] organizationIds = request.getParameterValues("superhumanOrganizations");
+        String[] superpowerIds = request.getParameterValues("superpowerIds");
+        String[] organizationIds = request.getParameterValues("organizationIds");
 
         List<Superpower> superpowers = new ArrayList<>();
         for(String superpowerId: superpowerIds){
@@ -61,8 +61,7 @@ public class SuperhumanController {
             organizations.add(organizationDao.getOrganizationById(Integer.parseInt(organizationId)));
         }
 
-        superhuman.setName(name);
-        superhuman.setDescription(description);
+
         superhuman.setSuperpowers(superpowers);
         superhuman.setOrganizations(organizations);
 
