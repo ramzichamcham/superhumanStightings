@@ -50,7 +50,7 @@
                     <label for="superhumanName" class="col-3 col-form-label">
                         Name</label>
                     <div class="col-9">
-                        <input type="text" name="superhumanName"
+                        <input type="text" name="name"
                                id="superhumanName" class="form-control"
                         th:value="${superhuman.name}"/>
                     </div>
@@ -59,7 +59,7 @@
                     <label for="superhumanDescription" class="col-3 col-form-label">
                         Description</label>
                     <div class="col-9">
-                        <input type="text" name="superhumanDescription"
+                        <input type="text" name="description"
                                id="superhumanDescription" class="form-control"
                                th:value="${superhuman.description}"/>
                     </div>
@@ -70,7 +70,7 @@
                         Superpowers</label>
                     <div class="col-9">
                         <select multiple id="superhumanSuperpowers"
-                                name="superhumanSuperpowers"
+                                name="superpowerIds"
                                 class="form-control" >
                             <option th:each="superpower : ${superpowers}"
                                     th:value="${superpower.id}"
@@ -86,7 +86,7 @@
                         Organizations</label>
                     <div class="col-9">
                         <select multiple id="superhumanOrganizations"
-                                name="superhumanOrganizations"
+                                name="organizationIds"
                                 class="form-control" >
                             <option th:each="organization : ${organizations}"
                                     th:value="${organization.id}"
