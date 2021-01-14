@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrganizationController {
@@ -18,10 +23,14 @@ public class OrganizationController {
     @Autowired
     OrganizationDao organizationDao;
 
+    Set<ConstraintViolation<Organization>> violations = new HashSet<>();
+
+
     @GetMapping("organizations")
     public String displayOrganizations(Model model){
         List<Organization> organizations = organizationDao.getAllOrganizations();
         model.addAttribute("organizations", organizations);
+        model.addAttribute("errors", violations);
         return "organizations";
 
     }
@@ -41,7 +50,12 @@ public class OrganizationController {
         organization.setPhoneNumber(phoneNumber);
         organization.setEmail(email);
 
-        organizationDao.addOrganization(organization);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
+
+        if(violations.isEmpty()){
+            organizationDao.addOrganization(organization);
+        }
 
         return "redirect:/organizations";
     }

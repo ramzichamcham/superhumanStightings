@@ -1,13 +1,25 @@
 package com.sg.superhumanSightings.entity;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Organization {
     private int id;
+    @NotBlank(message="Name must not be empty.")
+    @Size(max = 100, message = "Name must be less than 100 characters.")
     private String name;
     private String description;
+    @NotBlank(message="Address must not be empty.")
+    @Size(max = 200, message = "Address must be less than 200 characters.")
     private String address;
+    @NotBlank(message="Phone Number must not be empty.")
+    @Size(max = 15, message = "Phone number must be less than 15 characters.")
     private String phoneNumber;
+    @Email(message="Please provide a valid email address")
+    @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
     private String email;
 
     public int getId() {
