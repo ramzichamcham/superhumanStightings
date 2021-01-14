@@ -37,6 +37,7 @@ public class LocationController {
 
     @GetMapping("locations")
     public String displayLocations(Model model){
+//        violations = new HashSet<>();
         List<Location> locations = locationDao.getAllLocations();
         model.addAttribute("locations", locations);
         model.addAttribute("errors", violations);
@@ -45,6 +46,7 @@ public class LocationController {
 
     @PostMapping("addLocation")
     public String addLocation(HttpServletRequest request){
+
         String name = request.getParameter("locationName");
         String description = request.getParameter("locationDescription");
         String address = request.getParameter("locationAddress");
@@ -95,31 +97,61 @@ public class LocationController {
 
     @GetMapping("editLocation")
     public String editLocation(HttpServletRequest request, Model model){
+//        violations = new HashSet<>();
         int id = Integer.parseInt(request.getParameter("id"));
         Location location = locationDao.getLocationById(id);
         model.addAttribute("location", location);
+        model.addAttribute("errors", violations);
         return "editLocation";
     }
 
     @PostMapping("editLocation")
-    public String performEditLocation(HttpServletRequest request){
+    public String performEditLocation(HttpServletRequest request, Model model){
         int id = Integer.parseInt(request.getParameter("id"));
 
         String name = request.getParameter("locationName");
         String description = request.getParameter("locationDescription");
         String address = request.getParameter("locationAddress");
-        double latitude = Double.parseDouble(request.getParameter("locationLatitude"));
-        double longitude = Double.parseDouble(request.getParameter("locationLongitude"));
+
+
 
         Location location = locationDao.getLocationById(id);
         location.setName(name);
         location.setDescription(description);
         location.setAddress(address);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
 
-        locationDao.updateLocation(location);
-        return "redirect:/locations";
+
+        String latitudeString = request.getParameter("locationLatitude");
+        Double latitudeDouble;
+
+        if(latitudeString != ""){
+            latitudeDouble = Double.parseDouble(latitudeString);
+        }else{
+            latitudeDouble = null;
+        }
+
+        String longitudeString = request.getParameter("locationLongitude");
+        Double longitudeDouble;
+
+        if(longitudeString != ""){
+            longitudeDouble = Double.parseDouble(longitudeString);
+        }else{
+            longitudeDouble = null;
+        }
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(location);
+
+        if(violations.isEmpty()){
+            locationDao.updateLocation(location);
+            return "redirect:/locations";
+        }else{
+            model.addAttribute("errors", violations);
+            model.addAttribute("location", location);
+            return "editLocation";
+        }
+
+
 
     }
 
