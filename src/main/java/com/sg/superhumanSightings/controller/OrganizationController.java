@@ -73,11 +73,12 @@ public class OrganizationController {
         int id = Integer.parseInt(request.getParameter("id"));
         Organization organization = organizationDao.getOrganizationById(id);
         model.addAttribute("organization", organization);
+        model.addAttribute("errors", violations);
         return "editOrganization";
     }
 
     @PostMapping("editOrganization")
-    public String performEditOrganization(HttpServletRequest request){
+    public String performEditOrganization(HttpServletRequest request, Model model){
         int id = Integer.parseInt(request.getParameter("id"));
 
         String name = request.getParameter("organizationName");
@@ -93,8 +94,17 @@ public class OrganizationController {
         organization.setPhoneNumber(phoneNumber);
         organization.setEmail(email);
 
-        organizationDao.updateOrganization(organization);
-        return "redirect:/organizations";
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
+
+        if(violations.isEmpty()){
+            organizationDao.updateOrganization(organization);
+            return "redirect:/organizations";
+        }else{
+            model.addAttribute("errors", violations);
+            model.addAttribute("organization", organization);
+            return "editOrganization";
+        }
 
     }
 
