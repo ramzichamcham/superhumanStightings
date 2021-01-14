@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class LocationController {
@@ -28,10 +33,13 @@ public class LocationController {
     @Autowired
     SuperhumanDao superhumanDao;
 
+    Set<ConstraintViolation<Location>> violations = new HashSet<>();
+
     @GetMapping("locations")
     public String displayLocations(Model model){
         List<Location> locations = locationDao.getAllLocations();
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", violations);
         return "locations";
     }
 
@@ -40,17 +48,38 @@ public class LocationController {
         String name = request.getParameter("locationName");
         String description = request.getParameter("locationDescription");
         String address = request.getParameter("locationAddress");
-        double latitude = Double.parseDouble(request.getParameter("locationLatitude"));
-        double longitude = Double.parseDouble(request.getParameter("locationLongitude"));
+
+        String latitudeString = request.getParameter("locationLatitude");
+        Double latitudeDouble;
+
+        if(latitudeString != ""){
+            latitudeDouble = Double.parseDouble(latitudeString);
+        }else{
+            latitudeDouble = null;
+        }
+
+        String longitudeString = request.getParameter("locationLongitude");
+        Double longitudeDouble;
+
+        if(longitudeString != ""){
+            longitudeDouble = Double.parseDouble(longitudeString);
+        }else{
+            longitudeDouble = null;
+        }
 
         Location location = new Location();
         location.setName(name);
         location.setDescription(description);
         location.setAddress(address);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
+        location.setLatitude(latitudeDouble);
+        location.setLongitude(longitudeDouble);
 
-        locationDao.addLocation(location);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(location);
+
+        if(violations.isEmpty()){
+            locationDao.addLocation(location);
+        }
 
         return "redirect:/locations";
 

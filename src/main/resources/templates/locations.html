@@ -40,6 +40,11 @@
     </div>
 
     <div class="row m-4 border border-dark">
+        <div class="col-12 m-1 text-center"
+             th:if="${!errors.isEmpty()}">
+            <p class="alert alert-danger" th:each="error : ${errors}"
+               th:text="${error.message}">Error message</p>
+        </div>
         <div class="col-3 text-center m-3">
             <span class="h3">Add Location</span>
         </div>
@@ -73,7 +78,7 @@
                     <label for="locationLatitude" class="col-3 col-form-label">
                         Latitude</label>
                     <div class="col-9">
-                        <input type="text" name="locationLatitude"
+                        <input type="number" name="locationLatitude" step="0.000001"
                                id="locationLatitude" class="form-control">
                     </div>
                 </div>
@@ -81,7 +86,7 @@
                     <label for="locationLongitude" class="col-3 col-form-label">
                         Longitude</label>
                     <div class="col-9">
-                        <input type="text" name="locationLongitude"
+                        <input type="number" name="locationLongitude" step="0.000001"
                                id="locationLongitude" class="form-control">
                     </div>
                 </div>
