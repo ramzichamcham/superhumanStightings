@@ -8,9 +8,11 @@ import java.util.Objects;
 public class Superhuman {
 
     private int id;
+
     @NotBlank(message="Name must not be empty.")
     @Size(max = 100, message = "Name must be less than 100 characters.")
     private String name;
+
     private String description;
     private List<Organization> organizations;
     private List<Superpower> superpowers;
