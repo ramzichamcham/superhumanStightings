@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SightingController {
@@ -33,6 +38,7 @@ public class SightingController {
     @Autowired
     SuperhumanSightingsServiceLayer service;
 
+    Set<ConstraintViolation<Sighting>> violations = new HashSet<>();
 
     @GetMapping("sightings")
     public String displaySightings(Model model){
@@ -42,6 +48,7 @@ public class SightingController {
         model.addAttribute("sightings", sightings);
         model.addAttribute("locations", locations);
         model.addAttribute("superhumans", superhumans);
+        model.addAttribute("errors", violations);
         return "sightings";
 
     }
@@ -55,14 +62,26 @@ public class SightingController {
 
         Superhuman superhuman = superhumanDao.getSuperhumanById(Integer.parseInt(superhumanId));
         Location location = locationDao.getLocationById(Integer.parseInt(locationId));
-        LocalDateTime dateTime = service.stringsToLocalDatetime(date, time);
+
+        LocalDateTime dateTime = null;
+        if(date !="" && time != ""){
+            dateTime = service.stringsToLocalDatetime(date, time);
+        }
+
 
         Sighting sighting = new Sighting();
         sighting.setLocation(location);
         sighting.setSuperhuman(superhuman);
         sighting.setDateTime(dateTime);
 
-        sightingDao.addSighting(sighting);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(sighting);
+
+        if(violations.isEmpty()){
+            sightingDao.addSighting(sighting);
+        }
+
+
 
         return "redirect:/sightings";
     }
