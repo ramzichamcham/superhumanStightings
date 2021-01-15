@@ -9,9 +9,11 @@ import java.util.Objects;
 public class Location {
     private int id;
     private String name;
+
     @NotBlank(message="Address must not be empty.")
     @Size(max = 100, message = "Address must be less than 100 characters.")
     private String address;
+
     @Size(max = 200, message = "Description must be less than 200 characters.")
     private String description;
 
