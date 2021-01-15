@@ -7,9 +7,11 @@ import java.util.Objects;
 public class Superpower {
 
     private int id;
+
     @NotBlank(message="Name must not be empty.")
     @Size(max = 100, message = "Name must be less than 100 characters.")
     private String name;
+    
     @Size(max = 200, message = "Name must be less than 200 characters.")
     private String description;
 
