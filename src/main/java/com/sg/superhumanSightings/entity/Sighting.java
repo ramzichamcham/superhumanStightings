@@ -12,7 +12,7 @@ public class Sighting {
 
     @NotNull(message="You must choose a location")
     private Location location;
-    
+
     @NotNull(message="You must specify date and time")
     @Past(message = "Date must be in the past")
     private LocalDateTime dateTime;
