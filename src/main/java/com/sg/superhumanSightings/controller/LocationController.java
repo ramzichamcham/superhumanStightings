@@ -37,7 +37,7 @@ public class LocationController {
 
     @GetMapping("locations")
     public String displayLocations(Model model){
-//        violations = new HashSet<>();
+
         List<Location> locations = locationDao.getAllLocations();
         model.addAttribute("locations", locations);
         model.addAttribute("errors", violations);
@@ -97,7 +97,6 @@ public class LocationController {
 
     @GetMapping("editLocation")
     public String editLocation(HttpServletRequest request, Model model){
-//        violations = new HashSet<>();
         int id = Integer.parseInt(request.getParameter("id"));
         Location location = locationDao.getLocationById(id);
         model.addAttribute("location", location);
