@@ -120,21 +120,16 @@ public class SightingController {
         model.addAttribute("sightingToEdit", sighting);
         model.addAttribute("superhumans", superhumans);
         model.addAttribute("locations", locations);
-
+        model.addAttribute("errors", violations);
         return "editSighting";
     }
 
 
     @PostMapping("editSighting")
-    public String performEditSighting(HttpServletRequest request){
-        //delete sighting to edit
-        int superhumanToEditId = Integer.parseInt(request.getParameter("superhumanToEditId"));
-        int locationToEditId = Integer.parseInt(request.getParameter("locationToEditId"));
-        String dateTimeToEditString = request.getParameter("dateTimeToEdit");
-        LocalDateTime dateTimeToEdit = LocalDateTime.parse(dateTimeToEditString);
-        sightingDao.deleteSighting(dateTimeToEdit, superhumanToEditId, locationToEditId);
+    public String performEditSighting(HttpServletRequest request, Model model){
 
-        //Add new Sighting with new values
+
+        //new Sighting with new values
         String superhumanId = request.getParameter("newSightingSuperhuman");
         String locationId = request.getParameter("newSightingLocation");
         String date = request.getParameter("newSightingDate");
@@ -142,16 +137,53 @@ public class SightingController {
 
         Superhuman superhuman = superhumanDao.getSuperhumanById(Integer.parseInt(superhumanId));
         Location location = locationDao.getLocationById(Integer.parseInt(locationId));
-        LocalDateTime dateTime = service.stringsToLocalDatetime(date, time);
+
+        LocalDateTime dateTime = null;
+        if(date != "" && time != ""){
+            dateTime = service.stringsToLocalDatetime(date, time);
+        }
 
         Sighting sighting = new Sighting();
         sighting.setLocation(location);
         sighting.setSuperhuman(superhuman);
         sighting.setDateTime(dateTime);
 
-        sightingDao.addSighting(sighting);
+        // build sighting to edit with hidden fields
+        int superhumanToEditId = Integer.parseInt(request.getParameter("superhumanToEditId"));
+        Superhuman superhumanToEdit = superhumanDao.getSuperhumanById(superhumanToEditId);
+        int locationToEditId = Integer.parseInt(request.getParameter("locationToEditId"));
+        Location locationToEdit = locationDao.getLocationById(locationToEditId);
+        String dateTimeToEditString = request.getParameter("dateTimeToEdit");
+        LocalDateTime dateTimeToEdit = LocalDateTime.parse(dateTimeToEditString);
 
-        return "redirect:/sightings";
+        Sighting sightingToEdit = new Sighting();
+        sightingToEdit.setDateTime(dateTimeToEdit);
+        sightingToEdit.setSuperhuman(superhumanToEdit);
+        sightingToEdit.setLocation(locationToEdit);
+
+
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(sighting);
+
+        if(violations.isEmpty()){
+            //add new sighting
+            sightingDao.addSighting(sighting);
+
+
+            sightingDao.deleteSighting(dateTimeToEdit, superhumanToEditId, locationToEditId);
+
+            return "redirect:/sightings";
+        }else{
+            model.addAttribute("errors", violations);
+            model.addAttribute("sightingToEdit", sightingToEdit);
+            List<Superhuman> allSuperhumans = superhumanDao.getAllSuperhumans();
+            List<Location> allLocations = locationDao.getAllLocations();
+            model.addAttribute("superhumans", allSuperhumans);
+            model.addAttribute("locations", allLocations);
+            return "editSighting";
+        }
+
 
     }
 
